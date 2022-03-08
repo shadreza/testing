@@ -41,6 +41,41 @@ const dataArray = [
     }
 ]
 
+// https://i.ibb.co/cxGCwnY/area-chart.png
+// https://i.ibb.co/JFtHQYs/doughnut-chart.png
+// 
+// 
+// https://i.ibb.co/WHyyMsP/logo.png
+// https://i.ibb.co/y4hQ5xD/pie-chart.png
+// 
+
+const charts = [
+    {
+        name : "Horizontal Bar Chart",
+        image : "https://i.ibb.co/xjcMH9S/horizontal-bar-chart.png",
+    },
+    {
+        name : "Vertical Bar Chart",
+        image : "https://i.ibb.co/m0nhkqQ/vertical-bar-chart.png",
+    },
+    {
+        name : "Line Chart",
+        image : "https://i.ibb.co/rQfL4cf/line-chart.png",
+    },
+    {
+        name : "Area Chart",
+        image : "https://i.ibb.co/cxGCwnY/area_chart.png",
+    },
+    {
+        name : "Pie Chart",
+        image : "https://i.ibb.co/y4hQ5xD/pie-chart.png",
+    },
+    {
+        name : "Doughnut Chart",
+        image : "https://i.ibb.co/JFtHQYs/doughnut-chart.png",
+    },
+]
+
 const properties = Object.keys(dataArray[0])
 
 const store = createStore({
@@ -50,6 +85,8 @@ const store = createStore({
             properties: properties,
             x_property : null,
             y_property : null,
+            charts : charts,
+            chartToUse : null,
         }
     },
     mutations : {
@@ -59,6 +96,9 @@ const store = createStore({
         },
         changeYProperty (state, payLoad) {
             state.y_property = payLoad
+        },
+        selectChart(state, payLoad) {
+            state.chartToUse = payLoad
         }
 
     },

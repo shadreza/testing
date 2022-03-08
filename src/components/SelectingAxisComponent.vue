@@ -49,6 +49,7 @@
         padding: auto;
         border-radius: 5px;
         margin-left: 10px;
+        cursor: pointer;
     }
     .x-selection {
         float: left;
