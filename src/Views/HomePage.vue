@@ -13,7 +13,7 @@
         <br>
         <br>
         <div class="chart">
-            <ChartShowcase v-if="chartToUse" />
+            <ChartShowcase v-if="chartToUse" :key="toggler" />
         </div>
     </div>
 </template>
@@ -33,7 +33,7 @@
             ChartShowcase,
         },
         computed : {
-            ...mapState(["dataArray", "x_property", "y_property", "chartToUse"])
+            ...mapState(["dataArray", "x_property", "y_property", "chartToUse", "toggler"])
         }
     }
 </script>

@@ -7,37 +7,37 @@ const dataArray = [
         date: Date(29/12/2021),
         month : "December",
         district : "Dhaka",
-        sale     : 20000    
+        sale     : 200003    
     },
     {
-        date: Date(29/12/2021),
+        date: Date(30/12/2021),
         month : "December",
         district : "Dhaka",
-        sale     : 20000
+        sale     : 2220000
     },
     {
-        date: Date(29/12/2021),
+        date: Date(31/12/2021),
         month : "December",
         district : "Dhaka",
-        sale     : 20000
+        sale     : 240000
     },
     {
-        date: Date(29/12/2021),
+        date: Date(1/1/2022),
         month : "December",
         district : "Dhaka",
-        sale     : 20000
+        sale     : 230000
     },
     {
-        date: Date(29/12/2021),
+        date: Date(2/1/2022),
         month : "December",
         district : "Dhaka",
-        sale     : 20000
+        sale     : 12000
     },
     {
-        date: Date(29/12/2021),
+        date: Date(3/1/2022),
         month : "December",
         district : "Dhaka",
-        sale     : 20000
+        sale     : 2000
     }
 ]
 
@@ -87,19 +87,23 @@ const store = createStore({
             y_property : null,
             charts : charts,
             chartToUse : null,
+            toggler : true,
         }
     },
     mutations : {
 
         changeXProperty (state, payLoad) {
             state.x_property = payLoad
+            state.toggler = ! state.toggler
         },
         changeYProperty (state, payLoad) {
             state.y_property = payLoad
+            state.toggler = ! state.toggler
         },
         selectChart(state, payLoad) {
             state.chartToUse = payLoad
-        }
+            state.toggler = ! state.toggler
+        },
 
     },
     actions : {
