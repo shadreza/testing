@@ -1,17 +1,18 @@
 <template>
   <div id="app">
-    <HomePage />
+    <!-- <HomePage /> -->
+
   </div>
 </template>
 
 <script>
 
-  import HomePage from "./Views/HomePage"
+  // import HomePage from "./Views/HomePage"
 
 export default {
   name: 'App',
   components: {
-    HomePage,
+    // HomePage,
   }
 }
 </script>
