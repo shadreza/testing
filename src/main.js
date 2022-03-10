@@ -7,38 +7,56 @@ const dataArray = [
         date: "22-1-3020",
         month : "January",
         district : "Dhaka",
-        sale     : 20000    
+        sale     : 50    
     },
     {
         date: "22-2-3220",
         month : "February",
         district : "Bogura",
-        sale     : 22200
+        sale     : 10
     },
     {
         date: "22-3-1020",
         month : "March",
         district : "Jessore",
-        sale     : 24000
+        sale     : 100
     },
     {
         date: "22-4-4020",
         month : "April",
         district : "Khulna",
-        sale     : 23000
+        sale     : 33
     },
     {
         date: "22-5-3220",
         month : "May",
         district : "Cumilla",
-        sale     : 12000
+        sale     : 20
     },
     {
         date: "22-6-3000",
         month : "June",
         district : "Chittagong",
-        sale     : 2000
-    }
+        sale     : 80
+    },
+    {
+        date: "12-10-3120",
+        month : "October",
+        district : "Lahore",
+        sale     : 10
+    },
+    {
+        date: "1-11-3110",
+        month : "November",
+        district : "Foridpur",
+        sale     : 80
+    },
+    {
+        date: "29-9-2017",
+        month : "September",
+        district : "Darjeeling",
+        sale     : 120
+    },
 ]
 
 const charts = [

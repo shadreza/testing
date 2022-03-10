@@ -10,23 +10,16 @@
     import {mapState} from 'vuex'
 
     import {
-        // select, 
-        // csv, 
         scaleLinear, 
         max, 
         scaleBand, 
-        // scalePoint,
         scaleTime,
         extent,
         axisLeft,
         axisBottom,
-        // axisTop,
-        // min,
         line,
         area,
-        curveBasis,
         scaleOrdinal,
-        // schemeSet2
         } from 'd3'
 
     export default {
@@ -338,7 +331,6 @@
                 const lineGenerator = line()
                     .x(d => xScale(xValue(d)))
                     .y(d => yScale(yValue(d)))
-                    // .curve(curveBasis)
                 
                 svg_line_chart.append("text")
                     .attr('y', (height - 10))
@@ -383,11 +375,10 @@
                 svg_id , 
                 width , 
                 height ,
-                // x_label ,
-                // y_label , 
+                x_label ,
+                y_label , 
                 data ,
                 margin , 	
-                // padding ,
                 title 
             ) {
 
@@ -403,7 +394,7 @@
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
                         .style("text-decoration", "underline")  
-                        .text(title);
+                        .text(title)
                 
                 const innerWidth = width - margin[3] - margin[1]
                 const innerHeight = height - margin[0] - margin[2]
@@ -411,10 +402,9 @@
                 const xValue = d => d.x
                 const yValue = d => d.y
                 
-                const xScale = scaleTime()
-                    .domain(extent(data, xValue))
+                const xScale = scaleBand()
+                    .domain(data.map(xValue))
                     .range([0, innerWidth])
-                    .nice()
                 
                 const yScale = scaleLinear()
                     .domain([0, max(data, yValue)])
@@ -423,11 +413,12 @@
                 
                 const yAxis = axisLeft(yScale)
                     .ticks(6)
-                        .tickSize(-innerWidth)
+                    .tickSize(-innerWidth)
                     .tickPadding(15)
+
                 const xAxis = axisBottom(xScale)
                     .ticks(6)
-                        .tickSize(-innerHeight)
+                    .tickSize(-innerHeight)
                     .tickPadding(15)
                 
                 const g = svg_area_chart.append('g')
@@ -437,23 +428,50 @@
                 g.append('g').call(xAxis)
                     .attr('transform', `translate(0, ${innerHeight})`)
                 
+                let last_x = null
+                let last_last_x = null
+                let mid_x = null
+
                 const lineGenerator = area()
-                        .x(d => xScale(xValue(d)))
+                    .x(d => {
+                        if (last_last_x == null) {
+                            last_last_x = xScale(xValue(d))
+                        } else if (last_last_x != null && last_x == null) {
+                            last_x = xScale(xValue(d))
+                            mid_x = (last_last_x + last_x) /2
+                        }
+                        return xScale(xValue(d))
+                    })
                     .y0(innerHeight)
-                    .y1(d => yScale(yValue(d)))
-                    .curve(curveBasis)
-                
+                    .y1( d => yScale(yValue(d)))                
+
                 g.append('path')
                     .attr('class', 'area_path')
                     .attr('d', lineGenerator(data))
+                    .attr('fill', 'maroon')
+                    .attr('opacity', '0.6')
+                    .attr("transform","translate("+mid_x+",0)")
+
+                svg_area_chart.append("text")
+                    .attr('y', (height - 10))
+                    .attr('x', (width / 2))
+                    .attr("text-anchor", "center")  
+                    .style("font-size", "14px") 
+                    .text(x_label)
+                
+                svg_area_chart.append("text")
+                    .attr("x", 0)
+                    .attr("y", height / 2)
+                    .attr("text-anchor", "center")  
+                    .style("font-size", "14px") 
+                    .attr("transform", `rotate(-90,20,${height/2})`)
+                    .text(y_label)
                 
             },
             render_pie_chart (
                 svg_id , 
                 width , 
                 height , 
-                // x_label ,
-                // y_label ,
                 data , 
                 margin,
                 title 
@@ -465,22 +483,18 @@
                 
                 const addedHeightForTitle = 20
                 
-                
                 svg_pie_chart.append("text")
                         .attr("x", (width / 2))             
                         .attr("y", addedHeightForTitle + (margin / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
                         .style("text-decoration", "underline")  
-                        .text(title);
+                        .text(title)
                 
                 const g = svg_pie_chart.append('g')
                     .attr("transform", "translate(" + ( width / 2 ) + "," + (addedHeightForTitle + (height / 2)) + ")")
                 
                 const radius = Math.min(width, height)/2 - margin
-                
-                // const xValue = d => d.x
-                // const yValue = d => d.y
                 
                 const datas = []
                 
@@ -488,7 +502,7 @@
                 
                 data.forEach(d => datas.push(d.y))
                 
-                const colors = [ '#FFE8DF', '#BE9FE1', '#6FE7DD', '#142850', '#EA907A' ]
+                const colors = [ '#F38181', '#FCE38A', '#EAFFD0', '#95E1D3', '#30E3CA', '#FCBAD3', '#3282B8', '#C1F4C5', '#AA96DA', '#28FFBF', '#FFBF86',  '#C2F784']
                 
                 const colorPallete = []
                 
@@ -528,24 +542,22 @@
                 
                 
                 const new_arc = d3.arc()
-                    .innerRadius(radius * 1.25)
-                    .outerRadius(radius * 1.5)
+                    .innerRadius(radius - 60)
+                    .outerRadius(radius - 20)
                 
                 const new_arcs = g.selectAll('new_arc')
                     .data(pie(datas))
                     .enter().append('g')
                     .attr('class', 'arc_path')
                 
-                new_arcs.append("svg:text")
+                new_arcs.append("text")
                     .attr("transform", (d) => {
-                    d.outerRadius = radius * 1.5
-                    d.innerRadius = radius * 1.25
                     return "translate(" + new_arc.centroid(d) + ")"
                     })
                     .attr("text-anchor", "middle")
                     .style("fill", "Purple")
                     .style("font", "bold 10px Arial")
-                    .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(1).toString() + '%'  )
+                    .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(1).toString() + '%')
 
                 
             },
@@ -577,9 +589,6 @@
                         .text(title)
                 
                     const radius = Math.min(width, height)/2 - margin
-                
-                // const xValue = d => d.x
-                // const yValue = d => d.y
                 
                 const datas = []
                 
@@ -626,16 +635,24 @@
                     total += d.y
                 })
                 
-                arcs.append("svg:text")
+                const new_arc = d3.arc()
+                    .innerRadius(radius + 20)
+                    .outerRadius(radius + 40)
+                
+                const new_arcs = g.selectAll('new_arc')
+                    .data(pie(datas))
+                    .enter().append('g')
+                    .attr('class', 'arc_path')
+                
+                new_arcs.append("text")
                     .attr("transform", (d) => {
-                    d.outerRadius = radius + 50
-                    d.innerRadius = radius + 45
-                    return "translate(" + arc.centroid(d) + ")"
+                    return "translate(" + new_arc.centroid(d) + ")"
                     })
                     .attr("text-anchor", "middle")
                     .style("fill", "Purple")
-                    .style("font", "bold 12px Arial")
-                    .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(2).toString() + '%'  )
+                    .style("font", "bold 10px Arial")
+                    .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(1).toString() + '%')
+                
             },
             populateTargetData () {
                 this.dataArray.forEach(d => {
@@ -655,11 +672,11 @@
             } else if (this.chartToUse === 'Line Chart') {
                 this.render_line_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 2.5, 5, "Line")
             } else if (this.chartToUse === 'Area Chart') {
-                this.render_area_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "H Bar")
+                this.render_area_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], "Area")
             } else if (this.chartToUse === 'Pie Chart') {
-                this.render_pie_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "H Bar")
+                this.render_pie_chart('#svg_zone', 900, 750, this.target_data, 100, "Pie")
             } else if (this.chartToUse === 'Doughnut Chart') {
-                this.render_doughnut_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "H Bar")
+                this.render_doughnut_chart('#svg_zone', 900, 800, this.target_data, 100, "Doughnut")
             }
 
         }
