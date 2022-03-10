@@ -4,50 +4,42 @@ import App from './App.vue'
 
 const dataArray = [
     {
-        date: Date(29/12/2021),
-        month : "December",
+        date: "22-1-3020",
+        month : "January",
         district : "Dhaka",
-        sale     : 200003    
+        sale     : 20000    
     },
     {
-        date: Date(30/12/2021),
-        month : "December",
-        district : "Dhaka",
-        sale     : 2220000
+        date: "22-2-3220",
+        month : "February",
+        district : "Bogura",
+        sale     : 22200
     },
     {
-        date: Date(31/12/2021),
-        month : "December",
-        district : "Dhaka",
-        sale     : 240000
+        date: "22-3-1020",
+        month : "March",
+        district : "Jessore",
+        sale     : 24000
     },
     {
-        date: Date(1/1/2022),
-        month : "December",
-        district : "Dhaka",
-        sale     : 230000
+        date: "22-4-4020",
+        month : "April",
+        district : "Khulna",
+        sale     : 23000
     },
     {
-        date: Date(2/1/2022),
-        month : "December",
-        district : "Dhaka",
+        date: "22-5-3220",
+        month : "May",
+        district : "Cumilla",
         sale     : 12000
     },
     {
-        date: Date(3/1/2022),
-        month : "December",
-        district : "Dhaka",
+        date: "22-6-3000",
+        month : "June",
+        district : "Chittagong",
         sale     : 2000
     }
 ]
-
-// https://i.ibb.co/cxGCwnY/area-chart.png
-// https://i.ibb.co/JFtHQYs/doughnut-chart.png
-// 
-// 
-// https://i.ibb.co/WHyyMsP/logo.png
-// https://i.ibb.co/y4hQ5xD/pie-chart.png
-// 
 
 const charts = [
     {
@@ -104,26 +96,6 @@ const store = createStore({
             state.chartToUse = payLoad
             state.toggler = ! state.toggler
         },
-
-    },
-    actions : {
-        // can be async at the same time call mutations
-        // async addRandomNumberToCounter (context) {
-        //     const data = await axios.get("https://www.random.org/integers/?num=1&min=-10000&max=10000&col=1&base=10&format=plain&rnd=new")
-        //     context.commit("addToCounter", data.data)
-        //     // the main value is in data.data
-        // }
-    },
-    getters : {
-        // activeIndexes : (state) => (payload) => {
-        //     let indexes = []
-        //     state.history.forEach((number , index) => {
-        //         if (number === payload) {
-        //             indexes.push(index)
-        //         }
-        //     });
-        //     return indexes
-        // }
     }
 })
 

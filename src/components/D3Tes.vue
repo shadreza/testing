@@ -1,61 +1,58 @@
 <template>
     <div>
-
+        <svg id="svg_zone"></svg>
     </div>
 </template>
 
 <script>
 
+    import * as d3 from 'd3'
+    import {mapState} from 'vuex'
+
     import {
-    select, 
-    csv, 
-    scaleLinear, 
-    max, 
-    scaleBand, 
-    scalePoint,
-    scaleTime,
-    extent,
-    axisLeft,
-    axisBottom,
-    axisTop,
-    min,
-    line,
-    area,
-    curveBasis,
-    scaleOrdinal,
-    schemeSet2
-    } from d3
+        // select, 
+        // csv, 
+        scaleLinear, 
+        max, 
+        scaleBand, 
+        // scalePoint,
+        scaleTime,
+        extent,
+        axisLeft,
+        axisBottom,
+        // axisTop,
+        // min,
+        line,
+        area,
+        curveBasis,
+        scaleOrdinal,
+        // schemeSet2
+        } from 'd3'
 
     export default {
         name : "D3Tes",
+        computed : {
+            ...mapState(["x_property", "y_property", "dataArray", "chartToUse"])
+        },
         data () {
             return {
-                defaultParameters = {
-                    width 	: 900,
-                    height	: 450,
-                    title		: 'Title',
-                    data		: [],
-                    margin 	: [20, 20, 20, 20],
-                    padding : 30,
-                    radius	: 6,
-                    svg_id	: '',
-                    x_label : 'X Label',
-                    y_label : 'Y_Label',
-                }
+                target_data : [],
             }
         },
         methods : {
             render_horizontal_bar_chart ( 
-                svg_id = defaultParameters.svg_id, 
-                width = defaultParameters.width, 
-                height = defaultParameters.height,
-                x_label = defaultParameters.x_label,
-                y_label = defaultParameters.y_label,
-                data = defaultParameters.data,
-                margin = 	defaultParameters.margin, 
-                padding = defaultParameters.padding,
-                title = defaultParameters.title
+                svg_id , 
+                width, 
+                height,
+                x_label,
+                y_label,
+                data,
+                margin,
+                padding,
+                title
             ) {
+
+                console.log(data)
 
                 const svg_bar_chart_horizontal = d3.select(svg_id)
                     .attr('height', height)
@@ -106,15 +103,15 @@
                     .attr('x', (width / 2))
                     .attr("text-anchor", "center")  
                     .style("font-size", "14px") 
-                    .text(x_label)
+                    .text(y_label)
                 
                 svg_bar_chart_horizontal.append("text")
                     .attr("x", 0)
-                        .attr("y", height / 2)
+                    .attr("y", height / 2)
                     .attr("text-anchor", "center")  
                     .style("font-size", "14px") 
                     .attr("transform", `rotate(-90,20,${height/2})`)
-                    .text(y_label)
+                    .text(x_label)
                 
                 
                 g.selectAll('rect').data(data)
@@ -125,23 +122,22 @@
                     .style("font-size", "14px") 
                     .text(d => d.y)
                     
-                
-                g.selectAll('rect').data(data)
-                .enter().append('rect')
-                    .attr('y', d => yScale(xValue(d)))
-                    .attr('width', d => xScale(yValue(d)))
-                    .attr('height', barWidth)
+                    g.selectAll('rect').data(data)
+                    .enter().append('rect')
+                        .attr('y', d => yScale(xValue(d)))
+                        .attr('width', d => xScale(yValue(d)))
+                        .attr('height', barWidth)
             },
             render_vertical_bar_chart (
-                svg_id = defaultParameters.svg_id, 
-                width = defaultParameters.width, 
-                height = defaultParameters.height, 
-                x_label = defaultParameters.x_label,
-                y_label = defaultParameters.y_label,
-                data = defaultParameters.data, 
-                margin = 	defaultParameters.margin,
-                padding = defaultParameters.padding,
-                title = defaultParameters.title
+                svg_id , 
+                width , 
+                height , 
+                x_label ,
+                y_label ,
+                data , 
+                margin ,
+                padding ,
+                title 
                 ) {
 
                 const svg_bar_chart_vertical = d3.select(svg_id)
@@ -162,17 +158,17 @@
                 const innerWidth = width - margin[3] - margin[1]
                 const innerHeight = height - margin[0] - margin[2]
                 
-                const maxPopulation = max(data, d=>d.y)
+                const maxYValue = max(data, d=>d.y)
                 
                 const xValue = d => d.x
-                const yValue = d => { return (maxPopulation - d.y)}
+                const yValue = d => { return (maxYValue - d.y)}
                 
                 const xScale = scaleBand()
                     .domain(data.map(xValue))
                     .range([0, innerWidth])
                 
                 const yScale = scaleLinear()
-                    .domain([0, maxPopulation])
+                    .domain([0, maxYValue])
                     .range([innerHeight, 0])
                     .nice()
                 
@@ -186,7 +182,7 @@
                 g.append('g').call(xAxis)
                     .attr('transform', `translate(0, ${innerHeight})`)
                 
-                const padding_factor = 60
+                const padding_factor = 30
                 let current_x = padding*padding_factor
                 const barBandwidth = xScale.bandwidth() - (2*padding*padding_factor)
                 
@@ -225,16 +221,16 @@
                     .attr('height', d => yScale(yValue(d)))
             },
             render_scatter_chart (
-                svg_id = defaultParameters.svg_id, 
-                width = defaultParameters.width, 
-                height = defaultParameters.height,
-                x_label = defaultParameters.x_label,
-                y_label = defaultParameters.y_label,
-                data = defaultParameters.data,
-                margin = defaultParameters.margin,  	
-                padding = defaultParameters.padding,
-                radius = defaultParameters.radius,
-                title = defaultParameters.title
+                svg_id , 
+                width , 
+                height ,
+                x_label ,
+                y_label ,
+                data ,
+                margin ,  	
+                padding ,
+                radius ,
+                title 
                 ) {
             
             
@@ -285,18 +281,17 @@
                     .attr('r', radius)
             },
             render_line_chart (
-                svg_id = defaultParameters.svg_id, 
-                width = defaultParameters.width, 
-                height = defaultParameters.height,
-                x_label = defaultParameters.x_label,
-                y_label = defaultParameters.y_label,
-                data = defaultParameters.data,
-                margin = defaultParameters.margin,  	
-                padding = defaultParameters.padding,
-                radius = defaultParameters.radius,
-                title = defaultParameters.title
+                svg_id , 
+                width , 
+                height ,
+                x_label ,
+                y_label ,
+                data ,
+                margin ,  	
+                padding ,
+                radius ,
+                title 
             ) {
-
                 const svg_line_chart = d3.select(svg_id)
                     .attr('height', height)
                     .attr('width', width)
@@ -305,7 +300,7 @@
                 
                 svg_line_chart.append("text")
                         .attr("x", (width / 2))             
-                        .attr("y", addedHeightForTitle + (margin[0] / 2))
+                        .attr("y", addedHeightForTitle)
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
                         .style("text-decoration", "underline")  
@@ -319,10 +314,10 @@
                 const xValue = d => d.x
                 const yValue = d => d.y
                 
-                const xScale = scaleTime()
-                    .domain(extent(data, xValue))
+                const xScale = scaleBand()
+                    .domain(data.map(xValue))
                     .range([0, innerWidth])
-                    .nice()
+                    .padding(padding)
                 
                 const yScale = scaleLinear()
                     .domain(extent(data, yValue))
@@ -341,9 +336,9 @@
                 
                 
                 const lineGenerator = line()
-                        .x(d => xScale(xValue(d)))
+                    .x(d => xScale(xValue(d)))
                     .y(d => yScale(yValue(d)))
-                    .curve(curveBasis)
+                    // .curve(curveBasis)
                 
                 svg_line_chart.append("text")
                     .attr('y', (height - 10))
@@ -354,7 +349,7 @@
                 
                 svg_line_chart.append("text")
                     .attr("x", 0)
-                        .attr("y", height / 2)
+                    .attr("y", height / 2)
                     .attr("text-anchor", "center")  
                     .style("font-size", "14px") 
                     .attr("transform", `rotate(-90,20,${height/2})`)
@@ -363,8 +358,12 @@
                 g.append('path')
                     .attr('class', 'line_path')
                     .attr('d', lineGenerator(data))
+                    .attr('fill', 'none')
+                    .attr('stroke', 'maroon')
+                    .attr('stroke-width', '0.2rem')
+                    .attr('stroke0line-join', 'round')
                 
-                    g.selectAll('circle').data(data)
+                g.selectAll('circle').data(data)
                     .enter().append('circle')
                     .attr('cy', d => yScale(yValue(d)))
                     .attr('cx', d => xScale(xValue(d)))
@@ -377,18 +376,19 @@
                     .attr("text-anchor", "middle")  
                     .style("font-size", "14px") 
                     .text(d => d.y)
-                    .attr('transform',`rotate(-90, (${yScale(yValue(d))}), (${xScale(xValue(d))}))`)
+                    .attr("dx", "10")
+                    .attr("dy", "-20")
             },
             render_area_chart (
-                svg_id = defaultParameters.svg_id, 
-                width = defaultParameters.width, 
-                height = defaultParameters.height,
-                x_label = defaultParameters.x_label,
-                y_label = defaultParameters.y_label, 
-                data = defaultParameters.data,
-                margin = defaultParameters.margin, 	
-                padding = defaultParameters.padding,
-                title = defaultParameters.title
+                svg_id , 
+                width , 
+                height ,
+                // x_label ,
+                // y_label , 
+                data ,
+                margin , 	
+                // padding ,
+                title 
             ) {
 
                 const svg_area_chart = d3.select(svg_id)
@@ -449,14 +449,14 @@
                 
             },
             render_pie_chart (
-                svg_id = defaultParameters.svg_id, 
-                width = defaultParameters.width, 
-                height = defaultParameters.height, 
-                x_label = defaultParameters.x_label,
-                y_label = defaultParameters.y_label,
-                data = defaultParameters.data, 
-                margin = defaultParameters.margin[0],
-                title = defaultParameters.title
+                svg_id , 
+                width , 
+                height , 
+                // x_label ,
+                // y_label ,
+                data , 
+                margin,
+                title 
             ) {
 
                 const svg_pie_chart = d3.select(svg_id)
@@ -479,8 +479,8 @@
                 
                 const radius = Math.min(width, height)/2 - margin
                 
-                const xValue = d => d.x
-                const yValue = d => d.y
+                // const xValue = d => d.x
+                // const yValue = d => d.y
                 
                 const datas = []
                 
@@ -549,16 +549,15 @@
 
                 
             },
-
-            render_donought_chart (
-                svg_id = defaultParameters.svg_id, 
-                width = defaultParameters.width, 
-                height = defaultParameters.height,
-                x_label = defaultParameters.x_label,
-                y_label = defaultParameters.y_label,
-                data = defaultParameters.data, 
-                margin = defaultParameters.margin[0],
-                title = defaultParameters.title
+            render_doughnut_chart (
+                svg_id , 
+                width , 
+                height ,
+                // x_label ,
+                // y_label ,
+                data , 
+                margin,
+                title 
             ) {
                 const svg_doughnout_chart = d3.select(svg_id)
                     .attr('height', height)
@@ -579,8 +578,8 @@
                 
                     const radius = Math.min(width, height)/2 - margin
                 
-                const xValue = d => d.x
-                const yValue = d => d.y
+                // const xValue = d => d.x
+                // const yValue = d => d.y
                 
                 const datas = []
                 
@@ -637,42 +636,31 @@
                     .style("fill", "Purple")
                     .style("font", "bold 12px Arial")
                     .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(2).toString() + '%'  )
-                
+            },
+            populateTargetData () {
+                this.dataArray.forEach(d => {
+                    this.target_data.push({
+                        x : d[this.x_property],
+                        y : d[this.y_property],
+                    })
+                })
             }
         },
-        mounted : {
-            
-            // let target_data = []
-
-            // // for bar charts (h/v)
-
-            // // csv('data.csv').then(data => {
-            // //   data.forEach(d => {
-            // //     target_data.push({x: d.country , y: +d.population})
-            // //   });
-            // // 	render_horizontal_bar_chart('#horizontal_bar_chart_svg', 900, 450, 'Population', 'Country', target_data, [20, 20, 80, 80], 0.1, "H Bar")
-            // // 	render_vertical_bar_chart('#vertical_bar_chart_svg', 900, 450, 'Population', 'Country', target_data, [20, 20, 80, 80], 0.1, "V Bar")
-            // // });
-
-
-
-
-            // // target_data = []
-
-            // // // for line, area, pie chart
-
-
-            // csv('https://vizhub.com/curran/datasets/world-population-by-year-2015.csv').then(data => {
-            //   data.forEach(d => {
-            //     // target_data.push({x: new Date(d.year) , y: +d.population})
-            //     target_data=[{x: 'A', y: 10}, {x: 'B', y: 10}, {x: 'C', y: 10}, {x: 'D', y: 100}, {x: 'E', y: 10}, {x: 'E', y: 10}, {x: 'F', y: 1}, {x: 'G', y: 100}, {x: 'E', y: 20}, {x: 'E', y: 5}, {x: 'E', y: 5}]
-            //   });
-            // 	render_line_chart('#line_chart_svg', 900, 450, 'Date', 'Population', target_data, [20, 20, 80, 80], 2.5, 5, "Line")
-            // 	render_area_chart('#area_chart_svg', 900, 450, 'Date', 'Population', target_data, [20, 20, 60, 80], 2.5, "Area")
-            // 	render_pie_chart('#pie_chart_svg', 900, 450, 'Date', 'Population', target_data, 80, "Pie")
-            // 	render_donought_chart('#donought_chart_svg', 900, 450, 'Date', 'Population', target_data, 40, "Donought")
-            // });
-
+        mounted () {
+            this.populateTargetData()
+            if (this.chartToUse === 'Horizontal Bar Chart') {
+                this.render_horizontal_bar_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "H Bar")
+            } else if (this.chartToUse === 'Vertical Bar Chart') {
+                this.render_vertical_bar_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "V Bar")
+            } else if (this.chartToUse === 'Line Chart') {
+                this.render_line_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 2.5, 5, "Line")
+            } else if (this.chartToUse === 'Area Chart') {
+                this.render_area_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "H Bar")
+            } else if (this.chartToUse === 'Pie Chart') {
+                this.render_pie_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "H Bar")
+            } else if (this.chartToUse === 'Doughnut Chart') {
+                this.render_doughnut_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "H Bar")
+            }
 
         }
     }
@@ -681,3 +669,4 @@
 <style scoped>
 
 </style>
+

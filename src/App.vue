@@ -1,18 +1,20 @@
 <template>
   <div id="app">
-    <!-- <HomePage /> -->
-
+    <HomePage />
+    <!-- <D3Tes /> -->
   </div>
 </template>
 
 <script>
 
-  // import HomePage from "./Views/HomePage"
+  import HomePage from "./Views/HomePage"
+  // // import D3Tes from "./Views/D3Tes"
 
 export default {
   name: 'App',
   components: {
-    // HomePage,
+    HomePage,
+    // D3Tes,
   }
 }
 </script>

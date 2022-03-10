@@ -13,7 +13,7 @@
         <br>
         <br>
         <div class="chart">
-            <ChartShowcase v-if="chartToUse" :key="toggler" />
+            <D3Tes v-if="chartToUse" :key="toggler" />
         </div>
     </div>
 </template>
@@ -23,14 +23,14 @@
     import {mapState} from 'vuex'
     import SelectingAxisComponent from '../components/SelectingAxisComponent'
     import ChartSelect from '../components/ChartSelect'
-    import ChartShowcase from '../components/ChartShowcase'
+    import D3Tes from '../components/D3Tes'
 
     export default {
         name : 'HomePage',
         components : {
             SelectingAxisComponent,
             ChartSelect,
-            ChartShowcase,
+            D3Tes,
         },
         computed : {
             ...mapState(["dataArray", "x_property", "y_property", "chartToUse", "toggler"])
