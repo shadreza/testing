@@ -61,6 +61,6 @@
         width: 6%;
     }
     .selected-chart {
-        margin-down: 2rem;
+        margin-bottom: 2rem;
     }
 </style>

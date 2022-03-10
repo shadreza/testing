@@ -498,7 +498,7 @@
                 
                 const datas = []
                 
-                const pie = d3.pie()
+                const pie = d3.pie().sort(null)
                 
                 data.forEach(d => datas.push(d.y))
                 
