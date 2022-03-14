@@ -3,27 +3,32 @@
         <svg id="svg_zone"></svg>
         <div class="right-panel">
             <h4>Change the Chart Properties</h4>
-            <input type="checkbox" id="show-x-label" v-model="currentPropertiesForChart.showXLabel">
+            <input type="checkbox" id="show-x-label" v-model="currentPropertiesForChart.showXLabel" @change="toggleToggler()">
             <label for="show-x-label"> X Label </label>
             <br><br>
-            <input type="checkbox" id="show-y-label" v-model="currentPropertiesForChart.showYLabel">
+            <input type="checkbox" id="show-y-label" v-model="currentPropertiesForChart.showYLabel" @change="toggleToggler()">
             <label for="show-y-label"> Y Label </label>
             <br><br>
-            <input type="checkbox" id="show-x-legend" v-model="currentPropertiesForChart.showXLegend">
+            <input type="checkbox" id="show-x-legend" v-model="currentPropertiesForChart.showXLegend" @change="toggleToggler()">
             <label for="show-x-legend"> X Legend </label>
             <br><br>
-            <input type="checkbox" id="show-y-legend" v-model="currentPropertiesForChart.showYLegend">
+            <input type="checkbox" id="show-y-legend" v-model="currentPropertiesForChart.showYLegend" @change="toggleToggler()">
             <label for="show-y-legend"> Y Legend </label>
             <br><br>
-            <input type="checkbox" id="show-values-on-chart" v-model="currentPropertiesForChart.showValuesOnChart">
+            <input type="checkbox" id="show-values-on-chart" v-model="currentPropertiesForChart.showValuesOnChart" @change="toggleToggler()">
             <label for="show-values-on-chart"> Values On Chart </label>
             <br><br>
-            <input type="checkbox" id="show-title" v-model="currentPropertiesForChart.showTitle">
+            <input type="checkbox" id="show-title" v-model="currentPropertiesForChart.showTitle" @change="toggleToggler()">
             <label for="show-title"> Title </label>
             <br><br>
             <label for="colorPicker"> Color For Chart </label>
-            <input type="color" id="colorPicker" v-model="currentPropertiesForChart.colorForBars">
+            <input type="color" id="colorPicker" v-model="currentPropertiesForChart.colorForChart" @change="toggleToggler()">
             <br><br>
+            <label for="max-width"> Width </label>
+            <input id="max-width" type="number" v-model="currentPropertiesForChart.widthForChart" placeholder=" set the width of chart " @change="toggleToggler()">
+            <br><br>
+            <label for="max-height"> Height </label>
+            <input id="max-height" type="number" v-model="currentPropertiesForChart.heightForChart" placeholder=" set the height of chart " @change="toggleToggler()">
         </div>
     </div>
 </template>
@@ -31,8 +36,7 @@
 <script>
 
     import * as d3 from 'd3'
-    import {mapState} from 'vuex'
-
+    import {mapState, mapMutations} from 'vuex'
     import {
         scaleLinear, 
         max, 
@@ -49,14 +53,20 @@
     export default {
         name : "D3Tes",
         computed : {
-            ...mapState(["x_property", "y_property", "dataArray", "chartToUse", "currentPropertiesForChart"])
+            ...mapState(["x_property", "y_property", "dataArray", "chartToUse", "currentPropertiesForChart"]),
         },
         data () {
             return {
                 target_data : [],
+                colors : ''
             }
         },
         methods : {
+            whatIsTheColorNow() {
+                console.log(this.colors)
+            },
+            // ...mapMutations(["toggleXLabel", "toggleYLabel", "toggleXLegend", "toggleYLegend", "toggleShowingValuesOnChart", "toggleShowingTitle"]),
+            ...mapMutations(["toggleToggler"]),
             render_horizontal_bar_chart ( 
                 svg_id , 
                 width, 

@@ -94,9 +94,9 @@ const defaultPropertiesForChart = {
     showXLegend         : true,
     showYLegend         : true,
     showValuesOnChart   : true,
-    maxWidthForChart    : 900,
-    maxHeightForChart   : 450,
-    colorForBars        : 'black',
+    widthForChart       : 900,
+    heightForChart      : 450,
+    colorForChart       : '#000000',
     showTitle           : true
 }
 
@@ -120,24 +120,23 @@ const store = createStore({
 
         changeXProperty (state, payLoad) {
             state.x_property = payLoad
-            state.toggler = ! state.toggler
+            state.toggler =!state.toggler
         },
         changeYProperty (state, payLoad) {
             state.y_property = payLoad
-            state.toggler = ! state.toggler
+            state.toggler =!state.toggler
         },
         selectChart(state, payLoad) {
             state.chartToUse = payLoad
-            state.toggler = ! state.toggler
+            state.toggler =!state.toggler
         },
-        modifyCurrentPropertiesForChart(state, payLoad) {
-            state.currentPropertiesForChart = payLoad
-            state.toggler = ! state.toggler
+        toggleToggler(state) {
+            console.log(state.currentPropertiesForChart);
+            state.toggler =!state.toggler
         },
         modifyDefaultPropertiesForChart(state, payLoad) {
             state.defaultPropertiesForChart = payLoad
-            state.currentPropertiesForChart = payLoad
-            state.toggler = ! state.toggler
+            state.toggler =!state.toggler
         },
     }
 })
