@@ -88,16 +88,32 @@ const charts = [
 
 const properties = Object.keys(dataArray[0])
 
+const defaultPropertiesForChart = {
+    showXLabel          : true,
+    showYLabel          : true,
+    showXLegend         : true,
+    showYLegend         : true,
+    showValuesOnChart   : true,
+    maxWidthForChart    : 900,
+    maxHeightForChart   : 450,
+    colorForBars        : 'black',
+    showTitle           : true
+}
+
+const currentPropertiesForChart = defaultPropertiesForChart
+
 const store = createStore({
     state () {
         return {
-            dataArray: dataArray,
-            properties: properties,
-            x_property : null,
-            y_property : null,
-            charts : charts,
-            chartToUse : null,
-            toggler : true,
+            dataArray                   : dataArray,
+            properties                  : properties,
+            x_property                  : null,
+            y_property                  : null,
+            charts                      : charts,
+            chartToUse                  : null,
+            toggler                     : true,
+            defaultPropertiesForChart   : defaultPropertiesForChart,
+            currentPropertiesForChart   : currentPropertiesForChart
         }
     },
     mutations : {
@@ -112,6 +128,15 @@ const store = createStore({
         },
         selectChart(state, payLoad) {
             state.chartToUse = payLoad
+            state.toggler = ! state.toggler
+        },
+        modifyCurrentPropertiesForChart(state, payLoad) {
+            state.currentPropertiesForChart = payLoad
+            state.toggler = ! state.toggler
+        },
+        modifyDefaultPropertiesForChart(state, payLoad) {
+            state.defaultPropertiesForChart = payLoad
+            state.currentPropertiesForChart = payLoad
             state.toggler = ! state.toggler
         },
     }

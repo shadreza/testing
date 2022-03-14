@@ -1,6 +1,30 @@
 <template>
     <div>
         <svg id="svg_zone"></svg>
+        <div class="right-panel">
+            <h4>Change the Chart Properties</h4>
+            <input type="checkbox" id="show-x-label" v-model="currentPropertiesForChart.showXLabel">
+            <label for="show-x-label"> X Label </label>
+            <br><br>
+            <input type="checkbox" id="show-y-label" v-model="currentPropertiesForChart.showYLabel">
+            <label for="show-y-label"> Y Label </label>
+            <br><br>
+            <input type="checkbox" id="show-x-legend" v-model="currentPropertiesForChart.showXLegend">
+            <label for="show-x-legend"> X Legend </label>
+            <br><br>
+            <input type="checkbox" id="show-y-legend" v-model="currentPropertiesForChart.showYLegend">
+            <label for="show-y-legend"> Y Legend </label>
+            <br><br>
+            <input type="checkbox" id="show-values-on-chart" v-model="currentPropertiesForChart.showValuesOnChart">
+            <label for="show-values-on-chart"> Values On Chart </label>
+            <br><br>
+            <input type="checkbox" id="show-title" v-model="currentPropertiesForChart.showTitle">
+            <label for="show-title"> Title </label>
+            <br><br>
+            <label for="colorPicker"> Color For Chart </label>
+            <input type="color" id="colorPicker" v-model="currentPropertiesForChart.colorForBars">
+            <br><br>
+        </div>
     </div>
 </template>
 
@@ -25,7 +49,7 @@
     export default {
         name : "D3Tes",
         computed : {
-            ...mapState(["x_property", "y_property", "dataArray", "chartToUse"])
+            ...mapState(["x_property", "y_property", "dataArray", "chartToUse", "currentPropertiesForChart"])
         },
         data () {
             return {
@@ -44,8 +68,6 @@
                 padding,
                 title
             ) {
-
-                console.log(data)
 
                 const svg_bar_chart_horizontal = d3.select(svg_id)
                     .attr('height', height)
@@ -684,6 +706,11 @@
 </script>
 
 <style scoped>
-
+    .right-panel {
+        width: 20%;
+        float: right;
+        margin: 10px;
+        text-align: left;
+    }
 </style>
 
