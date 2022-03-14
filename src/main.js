@@ -43,7 +43,7 @@ const dataArray = [
         date: "12-10-3120",
         month : "October",
         district : "Lahore",
-        sale     : 10
+        sale     : 100
     },
     {
         date: "1-11-3110",
@@ -55,7 +55,7 @@ const dataArray = [
         date: "29-9-2017",
         month : "September",
         district : "Darjeeling",
-        sale     : 120
+        sale     : 127
     },
 ]
 
@@ -89,15 +89,18 @@ const charts = [
 const properties = Object.keys(dataArray[0])
 
 const defaultPropertiesForChart = {
-    showXLabel          : true,
-    showYLabel          : true,
-    showXLegend         : true,
-    showYLegend         : true,
-    showValuesOnChart   : true,
-    widthForChart       : 900,
-    heightForChart      : 450,
-    colorForChart       : '#000000',
-    showTitle           : true
+    showXLabel              : true,
+    showYLabel              : true,
+    showXLegend             : true,
+    showYLegend             : true,
+    showValuesOnChart       : true,
+    widthForChart           : 900,
+    heightForChart          : 450,
+    colorForChart           : '#AD5858',
+    showTitle               : true,
+    radiusOfPoint           : 4,
+    radiusOfPieOrDoughnut   : 900,
+
 }
 
 const currentPropertiesForChart = defaultPropertiesForChart
@@ -131,7 +134,6 @@ const store = createStore({
             state.toggler =!state.toggler
         },
         toggleToggler(state) {
-            console.log(state.currentPropertiesForChart);
             state.toggler =!state.toggler
         },
         modifyDefaultPropertiesForChart(state, payLoad) {

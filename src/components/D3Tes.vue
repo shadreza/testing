@@ -3,32 +3,112 @@
         <svg id="svg_zone"></svg>
         <div class="right-panel">
             <h4>Change the Chart Properties</h4>
-            <input type="checkbox" id="show-x-label" v-model="currentPropertiesForChart.showXLabel" @change="toggleToggler()">
-            <label for="show-x-label"> X Label </label>
+            <input 
+                v-if="!isTheChartPieOrDoughnut" 
+                type="checkbox" 
+                id="show-x-label" 
+                v-model="currentPropertiesForChart.showXLabel" 
+                @change="toggleToggler()"
+            >
+            <label 
+                v-if="!isTheChartPieOrDoughnut" 
+                for="show-x-label"
+            > 
+                X Label 
+            </label>
+            <br v-if="!isTheChartPieOrDoughnut"><br v-if="!isTheChartPieOrDoughnut">
+            <input 
+                v-if="!isTheChartPieOrDoughnut" 
+                type="checkbox" 
+                id="show-y-label" 
+                v-model="currentPropertiesForChart.showYLabel" 
+                @change="toggleToggler()"
+            >
+            <label 
+                v-if="!isTheChartPieOrDoughnut" 
+                for="show-y-label"
+            > 
+                Y Label 
+            </label>
+            <br v-if="!isTheChartPieOrDoughnut"><br v-if="!isTheChartPieOrDoughnut">
+            <input 
+                v-if="!isTheChartPieOrDoughnut" 
+                type="checkbox" 
+                id="show-x-legend" 
+                v-model="currentPropertiesForChart.showXLegend" 
+                @change="toggleToggler()"
+            >
+            <label 
+                v-if="!isTheChartPieOrDoughnut" 
+                for="show-x-legend"
+            > 
+                X Legend 
+            </label>
+            <br v-if="!isTheChartPieOrDoughnut"><br v-if="!isTheChartPieOrDoughnut">
+            <input 
+                v-if="!isTheChartPieOrDoughnut" 
+                type="checkbox" 
+                id="show-y-legend" 
+                v-model="currentPropertiesForChart.showYLegend" 
+                @change="toggleToggler()"
+            >
+            <label 
+                v-if="!isTheChartPieOrDoughnut" 
+                for="show-y-legend"
+            > 
+                Y Legend 
+            </label>
+            <br v-if="!isTheChartPieOrDoughnut"><br v-if="!isTheChartPieOrDoughnut">
+            <input 
+                type="checkbox" 
+                id="show-values-on-chart" 
+                v-model="currentPropertiesForChart.showValuesOnChart" 
+                @change="toggleToggler()"
+            >
+            <label 
+                for="show-values-on-chart"
+            > 
+                Values On Chart 
+            </label>
             <br><br>
-            <input type="checkbox" id="show-y-label" v-model="currentPropertiesForChart.showYLabel" @change="toggleToggler()">
-            <label for="show-y-label"> Y Label </label>
+            <input 
+                type="checkbox" 
+                id="show-title" 
+                v-model="currentPropertiesForChart.showTitle" 
+                @change="toggleToggler()"
+            >
+            <label 
+                for="show-title"
+            > 
+                Title 
+            </label>
             <br><br>
-            <input type="checkbox" id="show-x-legend" v-model="currentPropertiesForChart.showXLegend" @change="toggleToggler()">
-            <label for="show-x-legend"> X Legend </label>
-            <br><br>
-            <input type="checkbox" id="show-y-legend" v-model="currentPropertiesForChart.showYLegend" @change="toggleToggler()">
-            <label for="show-y-legend"> Y Legend </label>
-            <br><br>
-            <input type="checkbox" id="show-values-on-chart" v-model="currentPropertiesForChart.showValuesOnChart" @change="toggleToggler()">
-            <label for="show-values-on-chart"> Values On Chart </label>
-            <br><br>
-            <input type="checkbox" id="show-title" v-model="currentPropertiesForChart.showTitle" @change="toggleToggler()">
-            <label for="show-title"> Title </label>
-            <br><br>
-            <label for="colorPicker"> Color For Chart </label>
-            <input type="color" id="colorPicker" v-model="currentPropertiesForChart.colorForChart" @change="toggleToggler()">
-            <br><br>
-            <label for="max-width"> Width </label>
-            <input id="max-width" type="number" v-model="currentPropertiesForChart.widthForChart" placeholder=" set the width of chart " @change="toggleToggler()">
-            <br><br>
-            <label for="max-height"> Height </label>
-            <input id="max-height" type="number" v-model="currentPropertiesForChart.heightForChart" placeholder=" set the height of chart " @change="toggleToggler()">
+            <label 
+                v-if="!isTheChartPieOrDoughnut" 
+                for="colorPicker"
+            > 
+                Color For Chart 
+            </label>
+            <input 
+                v-if="!isTheChartPieOrDoughnut" 
+                type="color" 
+                id="colorPicker" 
+                v-model="currentPropertiesForChart.colorForChart" 
+                @change="toggleToggler()"
+            >
+            <br v-if="!isTheChartPieOrDoughnut"><br v-if="!isTheChartPieOrDoughnut">
+            <label v-if="isRadiusNeeded" for="radius"> Radius </label>
+            <input v-if="isRadiusNeeded" id="radius" type="number" v-model="currentPropertiesForChart.radiusOfPoint" placeholder=" set the point radius " @change="toggleToggler()">
+            <br v-if="isRadiusNeeded"><br v-if="isRadiusNeeded">
+            <label v-if="!isTheChartPieOrDoughnut" for="max-width"> Width </label>
+            <input v-if="!isTheChartPieOrDoughnut" id="max-width" type="number" v-model="currentPropertiesForChart.widthForChart" placeholder=" set the width of chart " @change="toggleToggler()">
+            <br v-if="!isTheChartPieOrDoughnut" ><br v-if="!isTheChartPieOrDoughnut" >
+            <label v-if="!isTheChartPieOrDoughnut" for="max-height"> Height </label>
+            <input v-if="!isTheChartPieOrDoughnut" id="max-height" type="number" v-model="currentPropertiesForChart.heightForChart" placeholder=" set the height of chart " @change="toggleToggler()">
+            <br v-if="!isTheChartPieOrDoughnut" ><br v-if="!isTheChartPieOrDoughnut" >
+            <label v-if="isTheChartPieOrDoughnut" for="max-radius"> Radius </label>
+            <input v-if="isTheChartPieOrDoughnut" id="max-radius" type="number" v-model="currentPropertiesForChart.radiusOfPieOrDoughnut" placeholder=" set the height of chart " @change="toggleToggler()">
+            <br v-if="isTheChartPieOrDoughnut" ><br v-if="!isTheChartPieOrDoughnut" >
         </div>
     </div>
 </template>
@@ -57,15 +137,13 @@
         },
         data () {
             return {
-                target_data : [],
-                colors : ''
+                target_data             : [],
+                colors                  : '',
+                isTheChartPieOrDoughnut : false,
+                isRadiusNeeded          : false,
             }
         },
         methods : {
-            whatIsTheColorNow() {
-                console.log(this.colors)
-            },
-            // ...mapMutations(["toggleXLabel", "toggleYLabel", "toggleXLegend", "toggleYLegend", "toggleShowingValuesOnChart", "toggleShowingTitle"]),
             ...mapMutations(["toggleToggler"]),
             render_horizontal_bar_chart ( 
                 svg_id , 
@@ -76,7 +154,8 @@
                 data,
                 margin,
                 padding,
-                title
+                title,
+                color
             ) {
 
                 const svg_bar_chart_horizontal = d3.select(svg_id)
@@ -86,17 +165,18 @@
                 const addedHeightForTitle = 20
                 const addedReducableRightWidth = 50
                 const addedGapForYTitle = 30
-                
-                svg_bar_chart_horizontal.append("text")
+
+                if (this.currentPropertiesForChart.showTitle) {
+                    svg_bar_chart_horizontal.append("text")
                         .attr("x", (width / 2))             
                         .attr("y", addedHeightForTitle + (margin[0] / 2))
                         .attr("text-anchor", "center")  
                         .style("font-size", "16px") 
                         .text(title)
+                }
                 
                 const innerWidth = width - margin[3] - margin[1] - addedReducableRightWidth
                 const innerHeight = height - margin[0] - margin[2]
-                
                 
                 const xValue = d => d.x
                 const yValue = d => d.y
@@ -110,48 +190,58 @@
                     .domain(data.map(xValue))
                     .range([0, innerHeight])
                     .padding(padding)
-                
-                const yAxis = axisLeft(yScale)
-                const xAxis = axisBottom(xScale)
-                
+
                 const g = svg_bar_chart_horizontal.append('g')
                     .attr('transform', `translate(${margin[3] + addedGapForYTitle}, ${addedHeightForTitle + margin[0]})`)
-                
-                g.append('g').call(yAxis)
-                g.append('g').call(xAxis)
+
+                if (this.currentPropertiesForChart.showXLegend) {
+                    const xAxis = axisBottom(xScale)
+                    g.append('g').call(xAxis)
                     .attr('transform', `translate(0, ${innerHeight})`)
+                }
+                
+                if (this.currentPropertiesForChart.showYLegend) {
+                    const yAxis = axisLeft(yScale)
+                    g.append('g').call(yAxis)
+                }
 
                 const barWidth = yScale.bandwidth()
-                
-                svg_bar_chart_horizontal.append("text")
+
+                if(this.currentPropertiesForChart.showYLabel) {
+                    svg_bar_chart_horizontal.append("text")
                     .attr('y', (height - 10))
                     .attr('x', (width / 2))
                     .attr("text-anchor", "center")  
                     .style("font-size", "14px") 
                     .text(y_label)
-                
-                svg_bar_chart_horizontal.append("text")
+                }
+
+                if(this.currentPropertiesForChart.showXLabel) {
+                    svg_bar_chart_horizontal.append("text")
                     .attr("x", 0)
                     .attr("y", height / 2)
                     .attr("text-anchor", "center")  
                     .style("font-size", "14px") 
                     .attr("transform", `rotate(-90,20,${height/2})`)
                     .text(x_label)
+                }  
                 
-                
-                g.selectAll('rect').data(data)
+                if(this.currentPropertiesForChart.showValuesOnChart) {
+                    g.selectAll('rect').data(data)
                     .enter().append("text")
                     .attr('y', d => (barWidth*0.65) + (yScale(xValue(d))))
                     .attr('x', d => (xScale(yValue(d))) + 5)
                     .attr("text-anchor", "start")  
                     .style("font-size", "14px") 
                     .text(d => d.y)
+                }  
                     
-                    g.selectAll('rect').data(data)
-                    .enter().append('rect')
-                        .attr('y', d => yScale(xValue(d)))
-                        .attr('width', d => xScale(yValue(d)))
-                        .attr('height', barWidth)
+                g.selectAll('rect').data(data)
+                .enter().append('rect')
+                    .attr('y', d => yScale(xValue(d)))
+                    .attr('width', d => xScale(yValue(d)))
+                    .attr('height', barWidth)
+                    .attr('fill', color)
             },
             render_vertical_bar_chart (
                 svg_id , 
@@ -162,8 +252,9 @@
                 data , 
                 margin ,
                 padding ,
-                title 
-                ) {
+                title,
+                color
+            ) {
 
                 const svg_bar_chart_vertical = d3.select(svg_id)
                     .attr('height', height)
@@ -171,14 +262,17 @@
                 
                 const addedHeightForTitle = 20
                 const addedGapForYTitle = 5
-                
-                svg_bar_chart_vertical.append("text")
+
+                if (this.currentPropertiesForChart.showTitle) {
+                    svg_bar_chart_vertical.append("text")
                         .attr("x", (width / 2))             
                         .attr("y", addedHeightForTitle + (margin[0] / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
                         .style("text-decoration", "underline")  
-                        .text(title);
+                        .text(title)
+                }
+                               
                 
                 const innerWidth = width - margin[3] - margin[1]
                 const innerHeight = height - margin[0] - margin[2]
@@ -197,66 +291,74 @@
                     .range([innerHeight, 0])
                     .nice()
                 
-                const xAxis = axisBottom(xScale)
-                const yAxis = axisLeft(yScale)
-                
                 const g = svg_bar_chart_vertical.append('g')
                     .attr('transform', `translate(${margin[3] + addedGapForYTitle}, ${addedHeightForTitle + margin[0]})`)
                 
-                g.append('g').call(yAxis)
-                g.append('g').call(xAxis)
-                    .attr('transform', `translate(0, ${innerHeight})`)
+                if(this.currentPropertiesForChart.showXLegend) {
+                    const xAxis = axisBottom(xScale)
+                    g.append('g').call(xAxis)
+                        .attr('transform', `translate(0, ${innerHeight})`)
+                }
+                
+                if(this.currentPropertiesForChart.showYLegend) {
+                    const yAxis = axisLeft(yScale)
+                    g.append('g').call(yAxis)
+                }
                 
                 const padding_factor = 30
                 let current_x = padding*padding_factor
                 const barBandwidth = xScale.bandwidth() - (2*padding*padding_factor)
+
+                if(this.currentPropertiesForChart.showXLabel) { 
+                    svg_bar_chart_vertical.append("text")
+                        .attr('y', (height - 10))
+                        .attr('x', (width / 2))
+                        .attr("text-anchor", "center")  
+                        .style("font-size", "14px") 
+                        .text(x_label)
+                }
                 
-                svg_bar_chart_vertical.append("text")
-                    .attr('y', (height - 10))
-                    .attr('x', (width / 2))
-                    .attr("text-anchor", "center")  
-                    .style("font-size", "14px") 
-                    .text(x_label)
-                
-                svg_bar_chart_vertical.append("text")
-                    .attr("x", 0)
+                if(this.currentPropertiesForChart.showYLabel) { 
+                    svg_bar_chart_vertical.append("text")
+                        .attr("x", 0)
                         .attr("y", height / 2)
-                    .attr("text-anchor", "center")  
-                    .style("font-size", "14px") 
-                    .attr("transform", `rotate(-90,20,${height/2})`)
-                    .text(y_label)
+                        .attr("text-anchor", "center")  
+                        .style("font-size", "14px") 
+                        .attr("transform", `rotate(-90,20,${height/2})`)
+                        .text(y_label)
+                }
+                
+                if(this.currentPropertiesForChart.showValuesOnChart) { 
+                    g.selectAll('rect').data(data)
+                        .enter().append("text")
+                        .attr('y', d => innerHeight - yScale(yValue(d)) - 5)
+                        .attr('x', d => (barBandwidth/2) + xScale(xValue(d)))
+                        .attr("text-anchor", "middle")  
+                        .style("font-size", "14px") 
+                        .text(d => d.y)
+                } 
                 
                 g.selectAll('rect').data(data)
-                    .enter().append("text")
-                    .attr('y', d => innerHeight - yScale(yValue(d)) - 5)
-                    .attr('x', d => (barBandwidth/2) + xScale(xValue(d)))
-                    .attr("text-anchor", "middle")  
-                    .style("font-size", "14px") 
-                    .text(d => d.y)
-                
-                g.selectAll('rect').data(data)
-                .enter().append('rect')
-                    .attr('y', d => innerHeight - yScale(yValue(d)))
-                    .attr('x', d => {
-                        let tmp = current_x
-                        current_x += xScale.bandwidth(d)
-                        return tmp
-                    })
-                    .attr('width', barBandwidth)
-                    .attr('height', d => yScale(yValue(d)))
+                    .enter().append('rect')
+                        .attr('y', d => innerHeight - yScale(yValue(d)))
+                        .attr('x', d => {
+                            let tmp = current_x
+                            current_x += xScale.bandwidth(d)
+                            return tmp
+                        })
+                        .attr('width', barBandwidth)
+                        .attr('height', d => yScale(yValue(d)))
+                        .attr('fill', color)
             },
             render_scatter_chart (
                 svg_id , 
                 width , 
                 height ,
-                x_label ,
-                y_label ,
                 data ,
                 margin ,  	
-                padding ,
                 radius ,
                 title 
-                ) {
+            ) {
             
             
                 const svg_scatter_chart = d3.select(svg_id)
@@ -315,7 +417,8 @@
                 margin ,  	
                 padding ,
                 radius ,
-                title 
+                title,
+                color
             ) {
                 const svg_line_chart = d3.select(svg_id)
                     .attr('height', height)
@@ -323,16 +426,17 @@
                 
                 const addedHeightForTitle = 20
                 
-                svg_line_chart.append("text")
+                if (this.currentPropertiesForChart.showTitle) {
+                    svg_line_chart.append("text")
                         .attr("x", (width / 2))             
                         .attr("y", addedHeightForTitle)
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
                         .style("text-decoration", "underline")  
                         .text(title)
+                }
                     
                 const addedGapForYTitle = 30
-                
                 const innerWidth = width - margin[3] - margin[1] - addedGapForYTitle
                 const innerHeight = height - margin[0] - margin[2]
                 
@@ -348,42 +452,52 @@
                     .domain(extent(data, yValue))
                     .range([innerHeight, 0])
                     .nice()
-                
-                const yAxis = axisLeft(yScale)
-                const xAxis = axisBottom(xScale)
+                               
                 
                 const g = svg_line_chart.append('g')
                     .attr('transform', `translate(${margin[3] + addedGapForYTitle}, ${addedHeightForTitle + margin[0]})`)
                 
-                g.append('g').call(yAxis)
-                g.append('g').call(xAxis)
-                    .attr('transform', `translate(0, ${innerHeight})`)
+                if (this.currentPropertiesForChart.showXLegend) {
+                    const xAxis = axisBottom(xScale)
+                    g.append('g').call(xAxis)
+                        .attr('transform', `translate(0, ${innerHeight})`)
+                } 
                 
+                if (this.currentPropertiesForChart.showYLegend) {
+                    const yAxis = axisLeft(yScale)
+                    g.append('g').call(yAxis)
+                }
                 
                 const lineGenerator = line()
                     .x(d => xScale(xValue(d)))
                     .y(d => yScale(yValue(d)))
-                
-                svg_line_chart.append("text")
+
+                if (this.currentPropertiesForChart.showYLabel) {
+                    svg_line_chart.append("text")
+                        .attr("x", 0)
+                        .attr("y", height / 2)
+                        .attr("text-anchor", "center")  
+                        .style("font-size", "14px") 
+                        .attr("transform", `rotate(-90,20,${height/2})`)
+                        .text(y_label)
+                }
+
+                if (this.currentPropertiesForChart.showXLabel) {
+                    svg_line_chart.append("text")
+                        svg_line_chart.append("text")
                     .attr('y', (height - 10))
                     .attr('x', (width / 2))
                     .attr("text-anchor", "center")  
                     .style("font-size", "14px") 
                     .text(x_label)
+                }               
                 
-                svg_line_chart.append("text")
-                    .attr("x", 0)
-                    .attr("y", height / 2)
-                    .attr("text-anchor", "center")  
-                    .style("font-size", "14px") 
-                    .attr("transform", `rotate(-90,20,${height/2})`)
-                    .text(y_label)
                 
                 g.append('path')
                     .attr('class', 'line_path')
                     .attr('d', lineGenerator(data))
                     .attr('fill', 'none')
-                    .attr('stroke', 'maroon')
+                    .attr('stroke', color)
                     .attr('stroke-width', '0.2rem')
                     .attr('stroke0line-join', 'round')
                 
@@ -393,15 +507,17 @@
                     .attr('cx', d => xScale(xValue(d)))
                     .attr('r', radius)
                 
-                g.selectAll('rect').data(data)
-                    .enter().append("text")
-                    .attr('y', d => yScale(yValue(d)))
-                    .attr('x', d => xScale(xValue(d)))
-                    .attr("text-anchor", "middle")  
-                    .style("font-size", "14px") 
-                    .text(d => d.y)
-                    .attr("dx", "10")
-                    .attr("dy", "-20")
+                if (this.currentPropertiesForChart.showValuesOnChart) {
+                    g.selectAll('rect').data(data)
+                        .enter().append("text")
+                        .attr('y', d => yScale(yValue(d)))
+                        .attr('x', d => xScale(xValue(d)))
+                        .attr("text-anchor", "middle")  
+                        .style("font-size", "14px") 
+                        .text(d => d.y)
+                        .attr("dx", "10")
+                        .attr("dy", "-20")
+                }
             },
             render_area_chart (
                 svg_id , 
@@ -411,7 +527,8 @@
                 y_label , 
                 data ,
                 margin , 	
-                title 
+                title,
+                color
             ) {
 
                 const svg_area_chart = d3.select(svg_id)
@@ -420,13 +537,15 @@
                 
                 const addedHeightForTitle = 20
                 
-                svg_area_chart.append("text")
+                if(this.currentPropertiesForChart.showTitle) {
+                    svg_area_chart.append("text")
                         .attr("x", (width / 2))             
                         .attr("y", addedHeightForTitle + (margin[0] / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
                         .style("text-decoration", "underline")  
                         .text(title)
+                }
                 
                 const innerWidth = width - margin[3] - margin[1]
                 const innerHeight = height - margin[0] - margin[2]
@@ -439,27 +558,33 @@
                     .range([0, innerWidth])
                 
                 const yScale = scaleLinear()
-                    .domain([0, max(data, yValue)])
+                    .domain([0, 1.1*max(data, yValue)])
                     .range([innerHeight, 0])
                     .nice()
                 
-                const yAxis = axisLeft(yScale)
-                    .ticks(6)
-                    .tickSize(-innerWidth)
-                    .tickPadding(15)
-
-                const xAxis = axisBottom(xScale)
-                    .ticks(6)
-                    .tickSize(-innerHeight)
-                    .tickPadding(15)
                 
                 const g = svg_area_chart.append('g')
                     .attr('transform', `translate(${margin[3]}, ${addedHeightForTitle + margin[0]})`)
                 
-                g.append('g').call(yAxis)
-                g.append('g').call(xAxis)
-                    .attr('transform', `translate(0, ${innerHeight})`)
-                
+                if(this.currentPropertiesForChart.showXLegend) {
+                    const xAxis = axisBottom(xScale)
+                        .ticks(6)
+                        .tickSize(-innerHeight)
+                        .tickPadding(15)
+
+                    g.append('g').call(xAxis)
+                        .attr('transform', `translate(0, ${innerHeight})`)
+                }
+
+                if(this.currentPropertiesForChart.showYLegend) {
+                    const yAxis = axisLeft(yScale)
+                        .ticks(6)
+                        .tickSize(-innerWidth)
+                        .tickPadding(15)
+                        
+                    g.append('g').call(yAxis)
+                }
+
                 let last_x = null
                 let last_last_x = null
                 let mid_x = null
@@ -480,48 +605,70 @@
                 g.append('path')
                     .attr('class', 'area_path')
                     .attr('d', lineGenerator(data))
-                    .attr('fill', 'maroon')
+                    .attr('fill', color)
                     .attr('opacity', '0.6')
                     .attr("transform","translate("+mid_x+",0)")
 
-                svg_area_chart.append("text")
-                    .attr('y', (height - 10))
-                    .attr('x', (width / 2))
-                    .attr("text-anchor", "center")  
-                    .style("font-size", "14px") 
-                    .text(x_label)
+                if(this.currentPropertiesForChart.showXLabel) {
+                    svg_area_chart.append("text")
+                        .attr('y', (height - 10))
+                        .attr('x', (width / 2))
+                        .attr("text-anchor", "center")  
+                        .style("font-size", "14px") 
+                        .text(x_label)
+                }
+
+                if(this.currentPropertiesForChart.showYLabel) {
+                    svg_area_chart.append("text")
+                        .attr("x", 0)
+                        .attr("y", height / 2)
+                        .attr("text-anchor", "center")  
+                        .style("font-size", "14px") 
+                        .attr("transform", `rotate(-90,20,${height/2})`)
+                        .text(y_label)
+                }       
                 
-                svg_area_chart.append("text")
-                    .attr("x", 0)
-                    .attr("y", height / 2)
-                    .attr("text-anchor", "center")  
-                    .style("font-size", "14px") 
-                    .attr("transform", `rotate(-90,20,${height/2})`)
-                    .text(y_label)
+                if (this.currentPropertiesForChart.showValuesOnChart) {
+                    g.selectAll('rect').data(data)
+                        .enter().append("text")
+                        .attr('y', d => yScale(yValue(d)))
+                        .attr('x', d => xScale(xValue(d)))
+                        .attr("text-anchor", "middle")  
+                        .style("font-size", "14px") 
+                        .text(d => d.y)
+                        .attr("dx", mid_x)
+                        // .attr("dy", "-20")
+                }
                 
             },
             render_pie_chart (
                 svg_id , 
-                width , 
-                height , 
+                Radius , 
                 data , 
                 margin,
                 title 
             ) {
+
+                const width = Radius
+                const height = Radius
 
                 const svg_pie_chart = d3.select(svg_id)
                     .attr('height', height)
                     .attr('width', width)
                 
                 const addedHeightForTitle = 20
-                
-                svg_pie_chart.append("text")
+
+                if(this.currentPropertiesForChart.showTitle) {
+                    svg_pie_chart.append("text")
                         .attr("x", (width / 2))             
                         .attr("y", addedHeightForTitle + (margin / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
                         .style("text-decoration", "underline")  
                         .text(title)
+                }
+                
+                
                 
                 const g = svg_pie_chart.append('g')
                     .attr("transform", "translate(" + ( width / 2 ) + "," + (addedHeightForTitle + (height / 2)) + ")")
@@ -566,43 +713,46 @@
                     .attr('fill', (d,i) => color(i))
                     .attr('d', arc)
                 
-                let total = 0
+                if(this.currentPropertiesForChart.showValuesOnChart) {
+                    let total = 0
                 
-                data.forEach( d => {
-                    total += d.y
-                })
-                
-                
-                const new_arc = d3.arc()
-                    .innerRadius(radius - 60)
-                    .outerRadius(radius - 20)
-                
-                const new_arcs = g.selectAll('new_arc')
-                    .data(pie(datas))
-                    .enter().append('g')
-                    .attr('class', 'arc_path')
-                
-                new_arcs.append("text")
-                    .attr("transform", (d) => {
-                    return "translate(" + new_arc.centroid(d) + ")"
+                    data.forEach( d => {
+                        total += d.y
                     })
-                    .attr("text-anchor", "middle")
-                    .style("fill", "Purple")
-                    .style("font", "bold 10px Arial")
-                    .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(1).toString() + '%')
+                    
+                    
+                    const new_arc = d3.arc()
+                        .innerRadius(radius - 60)
+                        .outerRadius(radius - 20)
+                    
+                    const new_arcs = g.selectAll('new_arc')
+                        .data(pie(datas))
+                        .enter().append('g')
+                        .attr('class', 'arc_path')
+                    
+                    new_arcs.append("text")
+                        .attr("transform", (d) => {
+                        return "translate(" + new_arc.centroid(d) + ")"
+                        })
+                        .attr("text-anchor", "middle")
+                        .style("fill", "Purple")
+                        .style("font", "bold 10px Arial")
+                        .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(1).toString() + '%')
 
+                }
                 
             },
             render_doughnut_chart (
                 svg_id , 
-                width , 
-                height ,
-                // x_label ,
-                // y_label ,
+                Radius , 
                 data , 
                 margin,
-                title 
+                title
             ) {
+
+                const width = Radius
+                const height = Radius
+
                 const svg_doughnout_chart = d3.select(svg_id)
                     .attr('height', height)
                     .attr('width', width)
@@ -612,20 +762,21 @@
                 const g = svg_doughnout_chart.append('g')
                     .attr("transform", "translate(" + width / 2 + "," + (addedHeightForTitle + (height / 2)) + ")")
                 
-                svg_doughnout_chart.append("text")
+                if(this.currentPropertiesForChart.showTitle) {
+                    svg_doughnout_chart.append("text")
                         .attr("x", (width / 2))             
                         .attr("y", addedHeightForTitle + (margin / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
                         .style("text-decoration", "underline")  
                         .text(title)
+                }
                 
-                    const radius = Math.min(width, height)/2 - margin
+                const radius = Math.min(width, height)/2 - margin
                 
                 const datas = []
                 
                 const pie = d3.pie()
-
                 
                 data.forEach(d => datas.push(d.y))
                 
@@ -646,7 +797,7 @@
                     data_count = data_count - 1
                 }
                 
-                    const color =  scaleOrdinal(colorPallete)
+                const color =  scaleOrdinal(colorPallete)
                 
                 const arc = d3.arc()
                     .innerRadius(radius/2)
@@ -660,30 +811,34 @@
                 arcs.append('path')
                     .attr('fill', (d,i) => color(i))
                     .attr('d', arc)
-                
-                let total = 0
-                
-                data.forEach( d => {
-                    total += d.y
-                })
-                
-                const new_arc = d3.arc()
-                    .innerRadius(radius + 20)
-                    .outerRadius(radius + 40)
-                
-                const new_arcs = g.selectAll('new_arc')
-                    .data(pie(datas))
-                    .enter().append('g')
-                    .attr('class', 'arc_path')
-                
-                new_arcs.append("text")
-                    .attr("transform", (d) => {
-                    return "translate(" + new_arc.centroid(d) + ")"
+
+                if(this.currentPropertiesForChart.showValuesOnChart) {
+
+                    let total = 0
+
+                    data.forEach( d => {
+                        total += d.y
                     })
-                    .attr("text-anchor", "middle")
-                    .style("fill", "Purple")
-                    .style("font", "bold 10px Arial")
-                    .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(1).toString() + '%')
+                    
+                    const new_arc = d3.arc()
+                        .innerRadius(radius + 20)
+                        .outerRadius(radius + 40)
+                    
+                    const new_arcs = g.selectAll('new_arc')
+                        .data(pie(datas))
+                        .enter().append('g')
+                        .attr('class', 'arc_path')
+                    
+                    new_arcs.append("text")
+                        .attr("transform", (d) => {
+                            return "translate(" + new_arc.centroid(d) + ")"
+                        })
+                        .attr("text-anchor", "middle")
+                        .style("fill", "Purple")
+                        .style("font", "bold 10px Arial")
+                        .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(1).toString() + '%')
+                    
+                }
                 
             },
             populateTargetData () {
@@ -696,19 +851,86 @@
             }
         },
         mounted () {
+            if (this.chartToUse === 'Pie Chart' || this.chartToUse === 'Doughnut Chart') {
+                this.isTheChartPieOrDoughnut = true
+                this.isRadiusNeeded = false
+            } else {
+                this.isTheChartPieOrDoughnut = false
+                if (this.chartToUse === 'Line Chart') {
+                    this.isRadiusNeeded = true 
+                } else {
+                    this.isRadiusNeeded = false 
+                }
+            }
             this.populateTargetData()
             if (this.chartToUse === 'Horizontal Bar Chart') {
-                this.render_horizontal_bar_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "H Bar")
+                this.render_horizontal_bar_chart(
+                    '#svg_zone', 
+                    this.currentPropertiesForChart.widthForChart, 
+                    this.currentPropertiesForChart.heightForChart, 
+                    this.x_property, 
+                    this.y_property, 
+                    this.target_data, 
+                    [80, 80, 80, 80], 
+                    0.1, 
+                    "H Bar", 
+                    this.currentPropertiesForChart.colorForChart
+                )
             } else if (this.chartToUse === 'Vertical Bar Chart') {
-                this.render_vertical_bar_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 0.1, "V Bar")
+                this.render_vertical_bar_chart(
+                    '#svg_zone', 
+                    this.currentPropertiesForChart.widthForChart, 
+                    this.currentPropertiesForChart.heightForChart, 
+                    this.x_property, 
+                    this.y_property, 
+                    this.target_data, 
+                    [80, 80, 80, 80], 
+                    0.1, 
+                    "V Bar",
+                    this.currentPropertiesForChart.colorForChart
+                )
             } else if (this.chartToUse === 'Line Chart') {
-                this.render_line_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], 2.5, 5, "Line")
+                this.render_line_chart(
+                    '#svg_zone', 
+                    this.currentPropertiesForChart.widthForChart, 
+                    this.currentPropertiesForChart.heightForChart, 
+                    this.x_property, 
+                    this.y_property, 
+                    this.target_data, 
+                    [80, 80, 80, 80], 
+                    2.5, 
+                    this.currentPropertiesForChart.radiusOfPoint, 
+                    "Line",
+                    this.currentPropertiesForChart.colorForChart
+                )
             } else if (this.chartToUse === 'Area Chart') {
-                this.render_area_chart('#svg_zone', 900, 450, this.x_property, this.y_property, this.target_data, [80, 80, 80, 80], "Area")
+                this.render_area_chart(
+                    '#svg_zone', 
+                    this.currentPropertiesForChart.widthForChart, 
+                    this.currentPropertiesForChart.heightForChart, 
+                    this.x_property, 
+                    this.y_property, 
+                    this.target_data, 
+                    [80, 80, 80, 80], 
+                    "Area",
+                    this.currentPropertiesForChart.colorForChart
+                )
             } else if (this.chartToUse === 'Pie Chart') {
-                this.render_pie_chart('#svg_zone', 900, 750, this.target_data, 100, "Pie")
+                this.render_pie_chart(
+                    '#svg_zone', 
+                    this.currentPropertiesForChart.radiusOfPieOrDoughnut,
+                    this.target_data, 
+                    100, 
+                    "Pie"
+                )
             } else if (this.chartToUse === 'Doughnut Chart') {
-                this.render_doughnut_chart('#svg_zone', 900, 800, this.target_data, 100, "Doughnut")
+                this.render_doughnut_chart(
+                    '#svg_zone', 
+                    this.currentPropertiesForChart.radiusOfPieOrDoughnut,
+                    this.target_data, 
+                    100, 
+                    "Doughnut"
+                )
             }
 
         }
