@@ -2,7 +2,9 @@ import { createApp } from 'vue'
 import {createStore} from 'vuex'
 import App from './App.vue'
 
-const dataArray = [
+// dataArray = DATA_FROM_DJANGO
+
+const mainDataArray = [
     {
         date: "22-1-3020",
         month : "January",
@@ -13,7 +15,7 @@ const dataArray = [
         date: "22-2-3220",
         month : "February",
         district : "Bogura",
-        sale     : 50
+        sale     : 30
     },
     {
         date: "22-3-1020",
@@ -42,8 +44,8 @@ const dataArray = [
     {
         date: "12-10-3120",
         month : "October",
-        district : "Lahore",
-        sale     : 100
+        district : "Dhaka",
+        sale     : 106
     },
     {
         date: "1-11-3110",
@@ -86,7 +88,7 @@ const charts = [
     },
 ]
 
-const properties = Object.keys(dataArray[0])
+const properties = Object.keys(mainDataArray[0])
 
 const defaultPropertiesForChart = {
     showXLabel              : true,
@@ -97,7 +99,9 @@ const defaultPropertiesForChart = {
     widthForChart           : 900,
     heightForChart          : 450,
     colorForChart           : '#AD5858',
+    opacity                 : 0.5,
     showTitle               : true,
+    setTitle                : '',
     radiusOfPoint           : 4,
     radiusOfPieOrDoughnut   : 900,
 
@@ -108,7 +112,7 @@ const currentPropertiesForChart = defaultPropertiesForChart
 const store = createStore({
     state () {
         return {
-            dataArray                   : dataArray,
+            dataArray                   : mainDataArray,
             properties                  : properties,
             x_property                  : null,
             y_property                  : null,
@@ -116,7 +120,8 @@ const store = createStore({
             chartToUse                  : null,
             toggler                     : true,
             defaultPropertiesForChart   : defaultPropertiesForChart,
-            currentPropertiesForChart   : currentPropertiesForChart
+            currentPropertiesForChart   : currentPropertiesForChart,
+            makeTheXElementsUnique      : false,
         }
     },
     mutations : {
@@ -140,6 +145,24 @@ const store = createStore({
             state.defaultPropertiesForChart = payLoad
             state.toggler =!state.toggler
         },
+        makeUniqueElements(state) {
+            state.makeTheXElementsUnique = !state.makeTheXElementsUnique
+            if (state.makeTheXElementsUnique === false) {
+                state.dataArray = mainDataArray
+            } else {
+                let tmpDataArray = mainDataArray
+                for(let i = 0; i < tmpDataArray.length; i++) {
+                    for(let j = i+1; j < tmpDataArray.length; j++) {
+                        if(tmpDataArray[i][state.x_property] === tmpDataArray[j][state.x_property]) {
+                            tmpDataArray[i][state.y_property] = tmpDataArray[i][state.y_property] + tmpDataArray[j][state.y_property]
+                            tmpDataArray.splice(j, 1)
+                        }
+                    } 
+                }
+                state.dataArray = tmpDataArray
+            }
+            state.toggler =!state.toggler
+        }
     }
 })
 

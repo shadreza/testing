@@ -3,6 +3,18 @@
         <svg id="svg_zone"></svg>
         <div class="right-panel">
             <h4>Change the Chart Properties</h4>
+            <input  
+                type="checkbox" 
+                id="make-unique-elements" 
+                v-model="makeTheXElementsUnique" 
+                @change="makeUniqueElements()"
+            >
+            <label 
+                for="make-unique-elements"
+            > 
+                Make the objects unique 
+            </label>
+            <br><br>
             <input 
                 v-if="!isTheChartPieOrDoughnut" 
                 type="checkbox" 
@@ -84,6 +96,19 @@
             </label>
             <br><br>
             <label 
+                for="set-title"
+            > 
+                Set Title 
+            </label>
+            <input 
+                type="text" 
+                id="set-title" 
+                v-model="currentPropertiesForChart.setTitle" 
+                @change="toggleToggler()"
+                placeholder="give a title"
+            >
+            <br><br>
+            <label 
                 v-if="!isTheChartPieOrDoughnut" 
                 for="colorPicker"
             > 
@@ -94,6 +119,21 @@
                 type="color" 
                 id="colorPicker" 
                 v-model="currentPropertiesForChart.colorForChart" 
+                @change="toggleToggler()"
+            >
+            <br v-if="!isTheChartPieOrDoughnut"><br v-if="!isTheChartPieOrDoughnut">
+            <label 
+                v-if="isAreaChart" 
+                for="opacity"
+            > 
+                Opacity 
+            </label>
+            <input 
+                v-if="isAreaChart" 
+                type="number" 
+                id="opacity" 
+                v-model="currentPropertiesForChart.opacity" 
+                placeholder="set the opacity"
                 @change="toggleToggler()"
             >
             <br v-if="!isTheChartPieOrDoughnut"><br v-if="!isTheChartPieOrDoughnut">
@@ -133,7 +173,7 @@
     export default {
         name : "D3Tes",
         computed : {
-            ...mapState(["x_property", "y_property", "dataArray", "chartToUse", "currentPropertiesForChart"]),
+            ...mapState(["x_property", "y_property", "dataArray", "chartToUse", "currentPropertiesForChart", "makeTheXElementsUnique"]),
         },
         data () {
             return {
@@ -141,10 +181,13 @@
                 colors                  : '',
                 isTheChartPieOrDoughnut : false,
                 isRadiusNeeded          : false,
+                isAreaChart             : false,
             }
         },
         methods : {
-            ...mapMutations(["toggleToggler"]),
+
+            ...mapMutations(["toggleToggler", "makeUniqueElements"]),
+
             render_horizontal_bar_chart ( 
                 svg_id , 
                 width, 
@@ -269,7 +312,6 @@
                         .attr("y", addedHeightForTitle + (margin[0] / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
-                        .style("text-decoration", "underline")  
                         .text(title)
                 }
                                
@@ -372,7 +414,6 @@
                         .attr("y", addedHeightForTitle + (margin[0] / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
-                        .style("text-decoration", "underline")  
                         .text(title);
                 
                 const innerWidth = width - margin[3] - margin[1]
@@ -432,7 +473,6 @@
                         .attr("y", addedHeightForTitle)
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
-                        .style("text-decoration", "underline")  
                         .text(title)
                 }
                     
@@ -528,7 +568,8 @@
                 data ,
                 margin , 	
                 title,
-                color
+                color,
+                opacity
             ) {
 
                 const svg_area_chart = d3.select(svg_id)
@@ -543,7 +584,6 @@
                         .attr("y", addedHeightForTitle + (margin[0] / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
-                        .style("text-decoration", "underline")  
                         .text(title)
                 }
                 
@@ -606,7 +646,7 @@
                     .attr('class', 'area_path')
                     .attr('d', lineGenerator(data))
                     .attr('fill', color)
-                    .attr('opacity', '0.6')
+                    .attr('opacity', opacity)
                     .attr("transform","translate("+mid_x+",0)")
 
                 if(this.currentPropertiesForChart.showXLabel) {
@@ -667,7 +707,6 @@
                         .attr("y", addedHeightForTitle + (margin / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
-                        .style("text-decoration", "underline")  
                         .text(title)
                 }
                 
@@ -808,7 +847,6 @@
                         .attr("y", addedHeightForTitle + (margin / 2))
                         .attr("text-anchor", "middle")  
                         .style("font-size", "16px") 
-                        .style("text-decoration", "underline")  
                         .text(title)
                 }
                 
@@ -936,12 +974,15 @@
             if (this.chartToUse === 'Pie Chart' || this.chartToUse === 'Doughnut Chart') {
                 this.isTheChartPieOrDoughnut = true
                 this.isRadiusNeeded = false
+                this.isAreaChart = false
             } else {
                 this.isTheChartPieOrDoughnut = false
+                this.isAreaChart = false
+                this.isRadiusNeeded = false
                 if (this.chartToUse === 'Line Chart') {
                     this.isRadiusNeeded = true 
-                } else {
-                    this.isRadiusNeeded = false 
+                } else if (this.chartToUse === 'Area Chart') {
+                     this.isAreaChart = true
                 }
             }
             this.populateTargetData()
@@ -955,7 +996,7 @@
                     this.target_data, 
                     [80, 80, 80, 80], 
                     0.1, 
-                    "H Bar", 
+                    this.currentPropertiesForChart.setTitle, 
                     this.currentPropertiesForChart.colorForChart
                 )
             } else if (this.chartToUse === 'Vertical Bar Chart') {
@@ -968,7 +1009,7 @@
                     this.target_data, 
                     [80, 80, 80, 80], 
                     0.1, 
-                    "V Bar",
+                    this.currentPropertiesForChart.setTitle,
                     this.currentPropertiesForChart.colorForChart
                 )
             } else if (this.chartToUse === 'Line Chart') {
@@ -982,7 +1023,7 @@
                     [80, 80, 80, 80], 
                     2.5, 
                     this.currentPropertiesForChart.radiusOfPoint, 
-                    "Line",
+                    this.currentPropertiesForChart.setTitle,
                     this.currentPropertiesForChart.colorForChart
                 )
             } else if (this.chartToUse === 'Area Chart') {
@@ -994,24 +1035,25 @@
                     this.y_property, 
                     this.target_data, 
                     [80, 80, 80, 80], 
-                    "Area",
-                    this.currentPropertiesForChart.colorForChart
+                    this.currentPropertiesForChart.setTitle,
+                    this.currentPropertiesForChart.colorForChart,
+                    this.currentPropertiesForChart.opacity
                 )
             } else if (this.chartToUse === 'Pie Chart') {
                 this.render_pie_chart(
                     '#svg_zone', 
                     this.currentPropertiesForChart.radiusOfPieOrDoughnut,
                     this.target_data, 
-                    100, 
-                    "Pie"
+                    120, 
+                    this.currentPropertiesForChart.setTitle
                 )
             } else if (this.chartToUse === 'Doughnut Chart') {
                 this.render_doughnut_chart(
                     '#svg_zone', 
                     this.currentPropertiesForChart.radiusOfPieOrDoughnut,
                     this.target_data, 
-                    100, 
-                    "Doughnut"
+                    120, 
+                    this.currentPropertiesForChart.setTitle
                 )
             }
 
