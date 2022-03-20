@@ -13,13 +13,13 @@ const dataArray = [
         date: "22-2-3220",
         month : "February",
         district : "Bogura",
-        sale     : 10
+        sale     : 50
     },
     {
         date: "22-3-1020",
         month : "March",
         district : "Jessore",
-        sale     : 100
+        sale     : 5
     },
     {
         date: "22-4-4020",
@@ -37,7 +37,7 @@ const dataArray = [
         date: "22-6-3000",
         month : "June",
         district : "Chittagong",
-        sale     : 80
+        sale     : 100
     },
     {
         date: "12-10-3120",
