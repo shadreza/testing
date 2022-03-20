@@ -657,7 +657,10 @@
                     .attr('width', width)
                 
                 const addedHeightForTitle = 20
-
+                
+                const g = svg_pie_chart.append('g')
+                    .attr("transform", "translate(" + width / 2 + "," + (addedHeightForTitle + (height / 2)) + ")")
+                
                 if(this.currentPropertiesForChart.showTitle) {
                     svg_pie_chart.append("text")
                         .attr("x", (width / 2))             
@@ -668,11 +671,6 @@
                         .text(title)
                 }
                 
-                
-                
-                const g = svg_pie_chart.append('g')
-                    .attr("transform", "translate(" + ( width / 2 ) + "," + (addedHeightForTitle + (height / 2)) + ")")
-                
                 const radius = Math.min(width, height)/2 - margin
                 
                 const datas = []
@@ -681,8 +679,8 @@
                 
                 data.forEach(d => datas.push(d.y))
                 
-                const colors = [ '#F38181', '#FCE38A', '#EAFFD0', '#95E1D3', '#30E3CA', '#FCBAD3', '#3282B8', '#C1F4C5', '#AA96DA', '#28FFBF', '#FFBF86',  '#C2F784']
-                
+                const colors = [ '#F38181', '#FCE38A', '#EAFFD0', '#95E1D3', '#AA96DA', '#FCBAD3', '#30E3CA', '#3282B8', '#C1F4C5', '#28FFBF', '#FFBF86',  '#C2F784']
+                let additionalSpace = radius * 0.1
                 const colorPallete = []
                 
                 let data_count = data.length
@@ -698,7 +696,7 @@
                     data_count = data_count - 1
                 }
                 
-                    const color =  scaleOrdinal(colorPallete)
+                const color =  scaleOrdinal(colorPallete)
                 
                 const arc = d3.arc()
                     .innerRadius(0)
@@ -712,33 +710,75 @@
                 arcs.append('path')
                     .attr('fill', (d,i) => color(i))
                     .attr('d', arc)
-                
+
                 if(this.currentPropertiesForChart.showValuesOnChart) {
+
                     let total = 0
-                
+
                     data.forEach( d => {
                         total += d.y
                     })
                     
-                    
                     const new_arc = d3.arc()
-                        .innerRadius(radius - 60)
-                        .outerRadius(radius - 20)
+                        .outerRadius(radius*1.05)
+                        .innerRadius(radius*1.05)
                     
                     const new_arcs = g.selectAll('new_arc')
                         .data(pie(datas))
                         .enter().append('g')
                         .attr('class', 'arc_path')
-                    
+
                     new_arcs.append("text")
                         .attr("transform", (d) => {
-                        return "translate(" + new_arc.centroid(d) + ")"
+                            let angle = 0
+                            angle = d.startAngle + ((d.endAngle - d.startAngle) / 2)
+                            let xx = new_arc.centroid(d)[0] 
+                            let yy = new_arc.centroid(d)[1]
+                            let inner_xx = new_arc.centroid(d)[0] 
+                            let inner_yy = new_arc.centroid(d)[1]
+                            if ( 0 <= angle && angle < Math.PI/2) {
+                                xx = xx + additionalSpace
+                                yy = yy - additionalSpace
+                            } else if (angle < Math.PI) {
+                                xx = xx + additionalSpace
+                                yy = yy + additionalSpace
+                            } else if (angle < 1.5*Math.PI) {
+                                xx = xx - additionalSpace
+                                yy = yy + additionalSpace
+                            } else {
+                                xx = xx - additionalSpace
+                                yy = yy - additionalSpace
+                            }
+                            
+                            const xy = [xx,yy]
+                            
+                            g.append('line')
+                                .style("stroke", "maroon")
+                                .style("stroke-width", 1)
+                                .attr("x1", inner_xx * 0.75)
+                                .attr("y1", inner_yy * 0.75)
+                                .attr("x2", inner_xx*1.05)
+                                .attr("y2", inner_yy*1.05)
+                            
+                            g.append('circle')
+                                .style("fill", "maroon")
+                                .attr("cx", inner_xx * 0.75)
+                                .attr("cy", inner_yy * 0.75)
+                                .attr("r", 3)
+                            
+                            g.append('circle')
+                                .style("fill", "maroon")
+                                .attr("cx", inner_xx*1.05)
+                                .attr("cy", inner_yy*1.05)
+                                .attr("r", 3)
+                            
+                            return "translate(" + xy + ")"
                         })
                         .attr("text-anchor", "middle")
                         .style("fill", "Purple")
                         .style("font", "bold 10px Arial")
                         .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(1).toString() + '%')
-
+                    
                 }
                 
             },
