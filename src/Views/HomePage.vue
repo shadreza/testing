@@ -15,7 +15,7 @@
         </div>
         <br>
         <br>
-        <div v-if="isTableChosen" class="chart">
+        <div v-if="isTableChosen" class="chart" :key="toggler">
             <D3Tes v-if="chartToUse" :key="toggler" />
         </div>
     </div>

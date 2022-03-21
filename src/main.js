@@ -79,8 +79,7 @@ const store = createStore({
                 axios
                     .get(state.backendURL+state.chosenTable)
                     .then(response => {
-                        const dataSet = response.data
-                        // this.modifyMainDataArray(dataSet)
+                        const dataSet = response.data.data
                         state.dataArray = dataSet
                         state.properties = Object.keys(state.dataArray[0])
                     })
@@ -91,7 +90,12 @@ const store = createStore({
                         console.log(error);
                         this.errored = true
                     })
-                    .finally(() => this.loading = false)
+                    .finally(() => {
+                        this.loading = false
+                        state.x_property = null
+                        state.y_property = null
+                        state.chartToUse = null
+                    })
             } else {
                 state.isTableChosen = false
             }

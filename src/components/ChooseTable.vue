@@ -29,10 +29,10 @@
             }
         },
         computed : {
-            ...mapState(["backendURL"])
+            ...mapState(["backendURL",])
         },
         methods : {
-            ...mapMutations(["changeTable"]),
+            ...mapMutations(["changeTable", "toggleToggler"]),
         },
         mounted() {
             axios
@@ -40,12 +40,15 @@
                 .then(response => {
                     const data = response.data
                     this.allTables = data
+                    this.toggleToggler()
                 })
                 .catch(error => {
+                    alert('Table could not be loaded')
                     console.log(error)
                     this.errored = true
                 })
                 .finally(() => this.loading = false)
+            
         }
     }
 </script>
