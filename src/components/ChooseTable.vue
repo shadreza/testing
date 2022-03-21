@@ -16,7 +16,7 @@
 <script>
 
     import axios from 'axios'
-    import { mapMutations } from 'vuex'
+    import { mapState, mapMutations } from 'vuex'
 
     export default {
         name: 'ChooseTable',
@@ -28,12 +28,15 @@
                 loading     : true,
             }
         },
+        computed : {
+            ...mapState(["backendURL"])
+        },
         methods : {
             ...mapMutations(["changeTable"]),
         },
         mounted() {
             axios
-                .get('https://0580-103-109-237-157.ngrok.io/api/tables/')
+                .get(this.backendURL)
                 .then(response => {
                     const data = response.data
                     this.allTables = data
