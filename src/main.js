@@ -1,66 +1,7 @@
 import { createApp } from 'vue'
 import {createStore} from 'vuex'
 import App from './App.vue'
-
-// dataArray = DATA_FROM_DJANGO
-
-const mainDataArray = [
-    {
-        date: "22-1-3020",
-        month : "January",
-        district : "Dhaka",
-        sale     : 50    
-    },
-    {
-        date: "22-2-3220",
-        month : "February",
-        district : "Bogura",
-        sale     : 30
-    },
-    {
-        date: "22-3-1020",
-        month : "March",
-        district : "Jessore",
-        sale     : 5
-    },
-    {
-        date: "22-4-4020",
-        month : "April",
-        district : "Khulna",
-        sale     : 33
-    },
-    {
-        date: "22-5-3220",
-        month : "May",
-        district : "Cumilla",
-        sale     : 20
-    },
-    {
-        date: "22-6-3000",
-        month : "June",
-        district : "Chittagong",
-        sale     : 100
-    },
-    {
-        date: "12-10-3120",
-        month : "October",
-        district : "Dhaka",
-        sale     : 106
-    },
-    {
-        date: "1-11-3110",
-        month : "November",
-        district : "Foridpur",
-        sale     : 80
-    },
-    {
-        date: "29-9-2017",
-        month : "September",
-        district : "Darjeeling",
-        sale     : 127
-    },
-]
-
+import axios from 'axios'
 const charts = [
     {
         name : "Horizontal Bar Chart",
@@ -88,7 +29,8 @@ const charts = [
     },
 ]
 
-const properties = Object.keys(mainDataArray[0])
+const mainDataArray = [{}]
+const allProperties = Object.keys(mainDataArray[0])
 
 const defaultPropertiesForChart = {
     showXLabel              : true,
@@ -107,13 +49,16 @@ const defaultPropertiesForChart = {
 
 }
 
+
 const currentPropertiesForChart = defaultPropertiesForChart
 
 const store = createStore({
     state () {
         return {
+            chosenTable                 : null,
+            isTableChosen               : false,
             dataArray                   : mainDataArray,
-            properties                  : properties,
+            properties                  : allProperties,
             x_property                  : null,
             y_property                  : null,
             charts                      : charts,
@@ -126,6 +71,31 @@ const store = createStore({
     },
     mutations : {
 
+        changeTable (state, payLoad) {
+            state.chosenTable = payLoad
+            if (state.chosenTable != null) {
+                state.isTableChosen = true
+                axios
+                    .get('https://0580-103-109-237-157.ngrok.io/api/tables/'+state.chosenTable)
+                    .then(response => {
+                        const dataSet = response.data
+                        // this.modifyMainDataArray(dataSet)
+                        state.dataArray = dataSet
+                        state.properties = Object.keys(state.dataArray[0])
+                    })
+                    .catch(error => {
+                        state.dataArray = [{}]
+                        state.properties = Object.keys(state.dataArray[0])
+                        alert("No Such Model")
+                        console.log(error);
+                        this.errored = true
+                    })
+                    .finally(() => this.loading = false)
+            } else {
+                state.isTableChosen = false
+            }
+            state.toggler = !state.toggler
+        },
         changeXProperty (state, payLoad) {
             state.x_property = payLoad
             state.toggler =!state.toggler
@@ -143,6 +113,11 @@ const store = createStore({
         },
         modifyDefaultPropertiesForChart(state, payLoad) {
             state.defaultPropertiesForChart = payLoad
+            state.toggler =!state.toggler
+        },
+        modifyMainDataArray(state, payLoad) {
+            state.dataArray = payLoad
+            state.properties = Object.keys(state.dataArray[0])
             state.toggler =!state.toggler
         },
         makeUniqueElements(state) {
@@ -163,7 +138,7 @@ const store = createStore({
             }
             state.toggler =!state.toggler
         }
-    }
+    },
 })
 
 const app = createApp(App)

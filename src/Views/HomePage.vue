@@ -1,18 +1,21 @@
 <template>
     <div>
         <h2 class="title">Charts</h2>
-        <div class="selecting-axis-properties-div">
+        <div class="select-a-table">
+            <ChooseTable />
+        </div>
+        <div v-if="isTableChosen" class="selecting-axis-properties-div">
             <SelectingAxisComponent tagName="X"/>
             <SelectingAxisComponent tagName="Y"/>
         </div>
         <br>
         <br>
-        <div class="selecting-charts">
+        <div v-if="isTableChosen" class="selecting-charts">
             <ChartSelect v-if="x_property && y_property" />
         </div>
         <br>
         <br>
-        <div class="chart">
+        <div v-if="isTableChosen" class="chart">
             <D3Tes v-if="chartToUse" :key="toggler" />
         </div>
     </div>
@@ -24,6 +27,7 @@
     import SelectingAxisComponent from '../components/SelectingAxisComponent'
     import ChartSelect from '../components/ChartSelect'
     import D3Tes from '../components/D3Tes'
+    import ChooseTable from '../components/ChooseTable.vue'
 
     export default {
         name : 'HomePage',
@@ -31,9 +35,10 @@
             SelectingAxisComponent,
             ChartSelect,
             D3Tes,
+            ChooseTable
         },
         computed : {
-            ...mapState(["dataArray", "x_property", "y_property", "chartToUse", "toggler"])
+            ...mapState(["dataArray", "x_property", "y_property", "chartToUse", "toggler", "isTableChosen"])
         }
     }
 </script>

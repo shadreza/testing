@@ -933,7 +933,7 @@
                             
                             g.append('line')
                                 .style("stroke", "maroon")
-                                .style("stroke-width", 1)
+                                .style("stroke-width", 1.5)
                                 .attr("x1", inner_xx * 0.75)
                                 .attr("y1", inner_yy * 0.75)
                                 .attr("x2", inner_xx*1.05)
@@ -955,7 +955,7 @@
                         })
                         .attr("text-anchor", "middle")
                         .style("fill", "Purple")
-                        .style("font", "bold 10px Arial")
+                        .style("font", "bold 12px Arial")
                         .text((d, i) => data[i].x.toString() + ' , ' + (100 * (data[i].y / total)).toFixed(1).toString() + '%')
                     
                 }
@@ -1070,3 +1070,4 @@
     }
 </style>
 
+    
