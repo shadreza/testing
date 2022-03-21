@@ -1,22 +1,30 @@
 <template>
-    <div>
+    <div class="home-page-div">
         <h2 class="title">Charts</h2>
+
         <div class="select-a-table">
             <ChooseTable />
         </div>
-        <div v-if="isTableChosen" class="selecting-axis-properties-div">
-            <SelectingAxisComponent tagName="X"/>
-            <SelectingAxisComponent tagName="Y"/>
-        </div>
+
         <br>
-        <br>
+
         <div v-if="isTableChosen" class="selecting-charts">
-            <ChartSelect v-if="x_property && y_property" />
+            <ChartSelect v-if="isTableChosen" />
         </div>
+
         <br>
         <br>
-        <div v-if="isTableChosen" class="chart" :key="toggler">
-            <D3Tes v-if="chartToUse" :key="toggler" />
+
+        <div v-if="isTableChosen && chartToUse" class="selecting-axis-properties-div">
+            <SelectingAxisComponent tagName="X" />
+            <SelectingAxisComponent tagName="Y" />
+        </div>       
+
+        <br>
+        <br>
+
+        <div v-if="isTableChosen && chartToUse && x_property && y_property" class="chart" :key="toggler">
+            <D3Tes v-if="isTableChosen && chartToUse && x_property && y_property" :key="toggler" />
         </div>
     </div>
 </template>
@@ -39,11 +47,14 @@
         },
         computed : {
             ...mapState(["dataArray", "x_property", "y_property", "chartToUse", "toggler", "isTableChosen"])
-        }
+        },
     }
 </script>
 
 <style scoped>
+    .home-page-div {
+        margin-bottom: 10rem ;
+    }
     .selecting-axis-properties-div {
         display: block;
         margin: 4rem;

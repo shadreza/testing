@@ -1,7 +1,7 @@
 <template>
     <div>
-        <p> <strong>{{x_property}}</strong> <small>  vs  </small><strong>{{y_property}}</strong></p>
-        <p>select a chart type from the followings</p>
+        <!-- <p> <strong>{{x_property}}</strong> <small>  vs  </small><strong>{{y_property}}</strong></p> -->
+        <p>Select a chart type from the followings</p>
         <div class="charts">
             <div 
                 v-for="chart in charts" 
@@ -15,7 +15,7 @@
             </div>
         </div>
         <div v-if="chartToUse" class="selected-chart">
-            <p><small>the graph is being shown in</small></p>
+            <!-- <p><small>the graph is being shown in</small></p> -->
             <h3>{{chartToUse}}</h3>
         </div>
     </div>
@@ -59,6 +59,10 @@
     #selected {
         opacity: 1;
         width: 6%;
+        padding: 10px;
+        border-radius: 10px;
+        background: #FAF3F3;
+
     }
     .selected-chart {
         margin-bottom: 2rem;

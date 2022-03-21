@@ -1,7 +1,7 @@
 <template>
     <div class="selectionPanel">
         <div class="x-selection" v-if="isItXAxis">
-            <label for="tagName">property for <b>{{tagName}}</b> axis:  </label>
+            <label for="tagName">property for <b> Reference </b> axis:  </label>
             <select name="tagName" id="tagName" v-model="xValue" @change="changeXProperty(xValue)">
                 <option v-for="option in properties" :key="option" v-bind:value="option">
                     {{ option }}
@@ -9,9 +9,9 @@
             </select>
         </div>
         <div class="y-selection" v-if="!isItXAxis">
-            <label for="tagName">property for <b>{{tagName}}</b> axis:  </label>
+            <label for="tagName">property for <b> Target </b> axis:  </label>
             <select name="tagName" id="tagName" v-model="yValue" @change="changeYProperty(yValue)">
-                <option v-for="option in properties" :key="option" v-bind:value="option">
+                <option v-for="option in valueProperty" :key="option" v-bind:value="option">
                     {{ option }}
                 </option>
             </select>
@@ -26,13 +26,14 @@
     export default {
         name : "SelectingAxisComponent",
         props : {
-            tagName : String,
+            tagName     : String,
         },
         data () {
             return {
                 xValue : null,
                 yValue : null,
-                isItXAxis : this.tagName === "X" ? true : false
+                isItXAxis : this.tagName === "X" ? true : false,
+                valueProperty : []
             }
         },
         computed : {
@@ -40,6 +41,13 @@
         },
         methods : {
             ...mapMutations(["changeXProperty", "changeYProperty"]),
+        },
+        mounted () {
+            this.properties.forEach(p => {
+                if(typeof(this.dataArray[0][p])==='number'){
+                    this.valueProperty.push(p)
+                }
+            });
         }
     }
 </script>
@@ -53,8 +61,10 @@
     }
     .x-selection {
         float: left;
+        margin-left: 15%;
     }
     .y-selection {
+        margin-right: 15%;
         float: right;
     }
     .selectionPanel {

@@ -3,18 +3,20 @@
         <svg id="svg_zone"></svg>
         <div class="right-panel">
             <h4>Change the Chart Properties</h4>
-            <input  
+            <!-- <input  
+                v-if="false"
                 type="checkbox" 
                 id="make-unique-elements" 
                 v-model="makeTheXElementsUnique" 
                 @change="makeUniqueElements()"
             >
             <label 
+                v-if="false"
                 for="make-unique-elements"
             > 
                 Make the objects unique 
             </label>
-            <br><br>
+            <br><br> -->
             <input 
                 v-if="!isTheChartPieOrDoughnut" 
                 type="checkbox" 
@@ -966,6 +968,22 @@
                     this.target_data.push({
                         x : d[this.x_property],
                         y : d[this.y_property],
+                    })
+                })
+                let mp = new Map()
+                this.target_data.forEach(d => {
+                    mp.set(d.x, 0)
+                })
+                this.target_data.forEach(d => {
+                    let value = mp.get(d.x)
+                    mp.set(d.x, (value + d.y))
+                })
+                this.target_data = []
+                mp.forEach((value, key) => {
+                    console.log(value, key)
+                    this.target_data.push({
+                        x :  key,
+                        y : value
                     })
                 })
             }

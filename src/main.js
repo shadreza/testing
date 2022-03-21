@@ -125,24 +125,24 @@ const store = createStore({
             state.properties = Object.keys(state.dataArray[0])
             state.toggler =!state.toggler
         },
-        makeUniqueElements(state) {
-            state.makeTheXElementsUnique = !state.makeTheXElementsUnique
-            if (state.makeTheXElementsUnique === false) {
-                state.dataArray = mainDataArray
-            } else {
-                let tmpDataArray = mainDataArray
-                for(let i = 0; i < tmpDataArray.length; i++) {
-                    for(let j = i+1; j < tmpDataArray.length; j++) {
-                        if(tmpDataArray[i][state.x_property] === tmpDataArray[j][state.x_property]) {
-                            tmpDataArray[i][state.y_property] = tmpDataArray[i][state.y_property] + tmpDataArray[j][state.y_property]
-                            tmpDataArray.splice(j, 1)
-                        }
-                    } 
-                }
-                state.dataArray = tmpDataArray
-            }
-            state.toggler =!state.toggler
-        }
+        // makeUniqueElements(state) {
+        //     state.makeTheXElementsUnique = !state.makeTheXElementsUnique
+        //     if (state.makeTheXElementsUnique === false) {
+        //         state.dataArray = mainDataArray
+        //     } else {
+        //         let tmpDataArray = mainDataArray
+        //         for(let i = 0; i < tmpDataArray.length; i++) {
+        //             for(let j = i+1; j < tmpDataArray.length; j++) {
+        //                 if(tmpDataArray[i][state.x_property] === tmpDataArray[j][state.x_property]) {
+        //                     tmpDataArray[i][state.y_property] = tmpDataArray[i][state.y_property] + tmpDataArray[j][state.y_property]
+        //                     tmpDataArray.splice(j, 1)
+        //                 }
+        //             } 
+        //         }
+        //         state.dataArray = tmpDataArray
+        //     }
+        //     state.toggler =!state.toggler
+        // }
     },
 })
 
