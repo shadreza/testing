@@ -1,6 +1,6 @@
 <template>
     <div>
-        <svg id="svg_zone"></svg>
+        <svg id="svg_zone" :key="chartToUse"></svg>
         <div class="right-panel">
             <h4>Change the Chart Properties</h4>
             <input 
