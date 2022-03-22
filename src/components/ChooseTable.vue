@@ -29,14 +29,14 @@
             }
         },
         computed : {
-            ...mapState(["backendURL",])
+            ...mapState(["baseUrl",])
         },
         methods : {
             ...mapMutations(["changeTable", "toggleToggler"]),
         },
         mounted() {
             axios
-                .get(this.backendURL)
+                .get(this.baseUrl+'tables/')
                 .then(response => {
                     const data = response.data.data
                     this.allTables = data

@@ -67,7 +67,8 @@ const store = createStore({
             defaultPropertiesForChart   : defaultPropertiesForChart,
             currentPropertiesForChart   : currentPropertiesForChart,
             makeTheXElementsUnique      : false,
-            backendURL                  : 'https://0580-103-109-237-157.ngrok.io/api/tables/'
+            baseUrl                     : 'https://c7e2-103-109-237-157.ngrok.io/api/',
+            // backendURL                  : 'https://c7e2-103-109-237-157.ngrok.io/api/tables/'
         }
     },
     mutations : {
@@ -77,7 +78,7 @@ const store = createStore({
             if (state.chosenTable != null) {
                 state.isTableChosen = true
                 axios
-                    .get(state.backendURL+state.chosenTable)
+                    .get(state.baseUrl+'tables/'+state.chosenTable)
                     .then(response => {
                         const dataSet = response.data.data
                         state.dataArray = dataSet
