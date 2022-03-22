@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- <p> <strong>{{x_property}}</strong> <small>  vs  </small><strong>{{y_property}}</strong></p> -->
         <p>Select a chart type from the followings</p>
         <div class="charts">
             <div 
