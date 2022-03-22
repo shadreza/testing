@@ -67,8 +67,7 @@ const store = createStore({
             defaultPropertiesForChart   : defaultPropertiesForChart,
             currentPropertiesForChart   : currentPropertiesForChart,
             makeTheXElementsUnique      : false,
-            baseUrl                     : 'https://c7e2-103-109-237-157.ngrok.io/api/',
-            // backendURL                  : 'https://c7e2-103-109-237-157.ngrok.io/api/tables/'
+            baseUrl                     : 'https://c7e2-103-109-237-157.ngrok.io/api/'
         }
     },
     mutations : {
