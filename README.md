@@ -27,6 +27,10 @@ Both the frontend and backend are kept local for the time being. When live the l
 
 <br><br>
 _Special courtesy to Arifur Rahman Rabbi Vai [ \[KronoFaze\]](https://github.com/KronoFaze) took care of the backend_
+
 _I, Shad Reza [ \[shadreza\]](https://github.com/shadreza) handled the frontend_ 
 
 Also the [TechTrioZ](https://www.techtrioz.com/techtrioz.com/index.html) family for offering the opportunity !
+
+
+## Alhamdulillah for everything !
