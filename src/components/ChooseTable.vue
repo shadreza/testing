@@ -38,7 +38,7 @@
             axios
                 .get(this.baseUrl+'tables/')
                 .then(response => {
-                    const data = response.data.data
+                    const data = response.data
                     this.allTables = data
                     this.toggleToggler()
                 })

@@ -80,7 +80,7 @@ const store = createStore({
                 axios
                     .get(state.baseUrl+'tables/'+state.chosenTable)
                     .then(response => {
-                        const dataSet = response.data.data
+                        const dataSet = response.data
                         state.dataArray = dataSet
                         state.properties = Object.keys(state.dataArray[0])
                     })
