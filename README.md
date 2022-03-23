@@ -2,7 +2,7 @@
 This is a web app that is built on **vue.js**
 The backend is currently a local deployed server managed by **Django**
 
-### [Frontend Live Link](https://charts-frontend-vue-iyuqbnfov-shadreza.vercel.app/)
+### [Frontend Live Link](https://charts-frontend-vue-k8ywnoue1-shadreza.vercel.app/)
 
 The backend is gonna be live soon!
 
