@@ -34,5 +34,7 @@ _I, Shad Reza [ \[shadreza\]](https://github.com/shadreza) handled the frontend_
 
 Also the [TechTrioZ](https://www.techtrioz.com/techtrioz.com/index.html) family for offering the opportunity !
 
+##### [Presentation Link](https://docs.google.com/presentation/d/1gvJvgg-n3lofcONZo4sJ9WGMF1XaJ5q1x0jW2hv8G8Q/edit#slide=id.p)
+
 
 ## Alhamdulillah for everything !
